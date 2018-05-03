@@ -1,0 +1,4 @@
+/src/storm
+/**/*.o
+/**/*.storm
+/**/.ml*
