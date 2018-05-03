@@ -1,4 +1,4 @@
 /src/storm
 /**/*.o
+/**/*.asm
 /**/*.storm
-/**/.ml*

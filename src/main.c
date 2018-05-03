@@ -9,7 +9,6 @@
 FILE *sourcefd;
 FILE *outputasm;
 FILE *tmp0;
-FILE *tmp1;
 
 int main(int argc, char **argv) {
 
@@ -18,19 +17,25 @@ int main(int argc, char **argv) {
         abort();
     }
 
+    if (argc < 3) {
+        fprintf(stderr, "No output name specified.\n");
+        abort();
+    }
+
     if (!(sourcefd = fopen(argv[1], "rb"))) {
         perror("Couldn't open source file");
         abort();
     }
 
-
-    if (!(outputasm = fopen(".mloutputasm", "wb"))) {
-        perror("Couldn't open outputasm");
+    if (!(outputasm = fopen(argv[2], "wb"))) {
+        fclose(sourcefd);
+        perror("Couldn't open output file");
         abort();
     }
 
-
-    if (!(tmp0 = fopen(".mltmp0", "wb"))) {
+    if (!(tmp0 = tmpfile())) {
+        fclose(sourcefd);
+        fclose(outputasm);
         perror("Couldn't open tmp0");
         abort();
     }
@@ -38,17 +43,8 @@ int main(int argc, char **argv) {
     literals_convert(sourcefd, outputasm, tmp0);
 
     fclose(sourcefd);
-    fclose(tmp0);
 
-    if (!(tmp0 = fopen(".mltmp0", "rb"))) {
-        perror("Couldn't open tmp0");
-        abort();
-    }
-
-    if (!(tmp1 = fopen(".mltmp1", "wb"))) {
-        perror("Couldn't open tmp1");
-        abort();
-    }
+    rewind(tmp0);
 
     token_t *tokens = malloc(32768 * sizeof(token_t));
 
@@ -64,7 +60,7 @@ int main(int argc, char **argv) {
     free(lexes);
 
     fclose(outputasm);
-    fclose(tmp1);
+    fclose(tmp0);
 
     return 0;
 }

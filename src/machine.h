@@ -15,6 +15,9 @@
     #define MACHINE_GLOBAL_REF \
         "global %s\n"
 
+    #define MACHINE_EXTERN_REF \
+        "extern %s\n"
+
     #define MACHINE_NEW_LABEL \
         "%s:\n"
 
