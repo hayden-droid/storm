@@ -25,6 +25,12 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                 lexes[cur_lex].type = LEX_EOF;
                 return;
             case TOKEN_INTEGER:
+                if (!is_statement) {
+                    is_statement = 1;
+                    lexes[cur_lex].type = LEX_STATEMENT_BEGIN;
+                    cur_lex++;
+                    fprintf(debug, "lex: statement begin\n");
+                }
                 fprintf(debug, "lex: integer %d\n", tokens[i].integer);
                 lexes[cur_lex].type = LEX_INTEGER;
                 lexes[cur_lex].integer = tokens[i].integer;
@@ -38,6 +44,12 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                 lexes[cur_lex].type = LEX_BLOCK_END;
                 break;
             case TOKEN_OPEN_BRACKET:
+                if (!is_statement) {
+                    is_statement = 1;
+                    lexes[cur_lex].type = LEX_STATEMENT_BEGIN;
+                    cur_lex++;
+                    fprintf(debug, "lex: statement begin\n");
+                }
                 fprintf(debug, "lex: open bracket\n");
                 lexes[cur_lex].type = LEX_OPEN_BRACKET;
                 break;
@@ -91,6 +103,12 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                 }
                 break;
             case TOKEN_ADDRESSOF:
+                if (!is_statement) {
+                    is_statement = 1;
+                    lexes[cur_lex].type = LEX_STATEMENT_BEGIN;
+                    cur_lex++;
+                    fprintf(debug, "lex: statement begin\n");
+                }
                 lexes[cur_lex].type = LEX_ADDRESSOF;
                 strcpy(lexes[cur_lex].name, tokens[++i].token);
                 fprintf(debug, "lex: address of %s\n", lexes[cur_lex].name);
