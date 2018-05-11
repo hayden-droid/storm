@@ -52,6 +52,8 @@ typedef struct {
 #define LEX_SEMICOLON               200
 #define LEX_ADDRESSOF               500
 
+#define LEX_ENDIF                   996
+#define LEX_IF                      997
 #define LEX_RETURN                  998
 #define LEX_OPERATOR                999
 
@@ -65,10 +67,10 @@ typedef struct {
 #define LEX_INCREMENT               1006
 #define LEX_DECREMENT               1007
 
-#define LEX_STATEMENT_BEGIN               2000
-#define LEX_STATEMENT_END               2001
-#define LEX_SUBSTATEMENT_BEGIN               2002
-#define LEX_SUBSTATEMENT_END               2003
+#define LEX_STATEMENT_BEGIN         2000
+#define LEX_STATEMENT_END           2001
+#define LEX_SUBSTATEMENT_BEGIN      2002
+#define LEX_SUBSTATEMENT_END        2003
 
 
 void lex(lex_t *, token_t *, FILE *);

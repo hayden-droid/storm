@@ -100,6 +100,9 @@ static void put_operator(FILE *output, operator_t op) {
         case LEX_DIV:
             fprintf(output, MACHINE_DIV);
             break;
+        case LEX_ISEQUAL:
+            fprintf(output, MACHINE_ISEQUAL);
+            break;
     }
 
 
@@ -210,6 +213,18 @@ static void statement_compile(FILE *output, lex_t *lexes) {
 
 }
 
+static int labels = 0;
+
+typedef struct {
+    int type;
+    int label;
+} keyword_t;
+
+#define KEYWORD_IF      1000
+
+static keyword_t keywords[1024];
+static size_t keywords_ptr = 0;
+
 void codegen(FILE *output, lex_t *lexes) {
 
     int ret = 0;
@@ -235,6 +250,16 @@ void codegen(FILE *output, lex_t *lexes) {
                     fprintf(output, MACHINE_RETURN);
                     ret = 0;
                 }
+                break;
+            case LEX_IF:
+                i++;
+                statement_compile(output, &lexes[i+1]);
+                keywords[keywords_ptr].type = KEYWORD_IF;
+                keywords[keywords_ptr++].label = labels;
+                fprintf(output, MACHINE_IF, labels++);
+                break;
+            case LEX_ENDIF:
+                fprintf(output, MACHINE_ENDIF, keywords[--keywords_ptr].label);
                 break;
             case LEX_RETURN:
                 ret = 1;

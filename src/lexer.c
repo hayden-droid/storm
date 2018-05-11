@@ -197,6 +197,18 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                     goto continue2;
                 }
 
+                if (!strcmp(tokens[i].token, "if")) {
+                    fprintf(debug, "lex: if\n");
+                    lexes[cur_lex].type = LEX_IF;
+                    goto continue2;
+                }
+
+                if (!strcmp(tokens[i].token, "endif")) {
+                    fprintf(debug, "lex: endif\n");
+                    lexes[cur_lex].type = LEX_ENDIF;
+                    goto continue2;
+                }
+
                 /* it's a normal statement */
                 if (!is_statement) {
                     is_statement = 1;

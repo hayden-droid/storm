@@ -47,6 +47,21 @@
         "\tdiv ebx\n" \
         "\tpush eax\n"
 
+    #define MACHINE_ISEQUAL \
+        "\tpop eax\n" \
+        "\tpop ebx\n" \
+        "\tcmp eax, ebx\n" \
+        "\tpushfd\n" \
+        "\tand dword [esp], ~(1 << 6)\n" \
+        "\tshr dword [esp], 6\n"
+
+    #define MACHINE_IF \
+        "\ttest eax, eax\n" \
+        "\tjz .__l%d\n"
+
+    #define MACHINE_ENDIF \
+        ".__l%d:\n"
+
     #define MACHINE_FUNCTION_CALL \
         "\tcall %s\n" \
         "\tadd esp, %d\n" \
