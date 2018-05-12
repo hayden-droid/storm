@@ -188,8 +188,27 @@ static void statement_compile(FILE *output, lex_t *lexes) {
                 }
                 op_stack_ptr--;
                 if (operator_stack[op_stack_ptr].type == LEX_FUNCTION_CALL) {
-                    fprintf(output, MACHINE_EXTERN_REF, operator_stack[op_stack_ptr].name);
-                    fprintf(output, MACHINE_FUNCTION_CALL, operator_stack[op_stack_ptr--].name, function_arg_depth[fn_arg_ptr] * MACHINE_STACK_ELEMENT_SIZE);
+                    if (!strcmp(operator_stack[op_stack_ptr].name, "poke8")) {
+                        fprintf(output, MACHINE_POKE8);
+                    } else if (!strcmp(operator_stack[op_stack_ptr].name, "poke16")) {
+                        fprintf(output, MACHINE_POKE16);
+                    } else if (!strcmp(operator_stack[op_stack_ptr].name, "poke32")) {
+                        fprintf(output, MACHINE_POKE32);
+                    } else if (!strcmp(operator_stack[op_stack_ptr].name, "poke64")) {
+                        fprintf(output, MACHINE_POKE64);
+                    } else if (!strcmp(operator_stack[op_stack_ptr].name, "peek8")) {
+                        fprintf(output, MACHINE_PEEK8);
+                    } else if (!strcmp(operator_stack[op_stack_ptr].name, "peek16")) {
+                        fprintf(output, MACHINE_PEEK16);
+                    } else if (!strcmp(operator_stack[op_stack_ptr].name, "peek32")) {
+                        fprintf(output, MACHINE_PEEK32);
+                    } else if (!strcmp(operator_stack[op_stack_ptr].name, "peek64")) {
+                        fprintf(output, MACHINE_PEEK64);
+                    } else {
+                        fprintf(output, MACHINE_EXTERN_REF, operator_stack[op_stack_ptr].name);
+                        fprintf(output, MACHINE_FUNCTION_CALL, operator_stack[op_stack_ptr].name, function_arg_depth[fn_arg_ptr] * MACHINE_STACK_ELEMENT_SIZE);
+                    }
+                    op_stack_ptr--;
                     fn_arg_ptr--;
                 }
                 break;

@@ -69,6 +69,46 @@
     #define MACHINE_ENDWHILE \
         "\tjmp .__l%d\n"
 
+    #define MACHINE_POKE8 \
+        "\tpop eax\n" \
+        "\tpop ebx\n" \
+        "\tmov byte [ebx], al\n" \
+        "\tpush eax\n"
+
+    #define MACHINE_POKE16 \
+        "\tpop eax\n" \
+        "\tpop ebx\n" \
+        "\tmov word [ebx], ax\n" \
+        "\tpush eax\n"
+
+    #define MACHINE_POKE32 \
+        "\tpop eax\n" \
+        "\tpop ebx\n" \
+        "\tmov dword [ebx], eax\n" \
+        "\tpush eax\n"
+
+    #define MACHINE_POKE64 \
+        "\tnop\n"
+
+    #define MACHINE_PEEK8 \
+        "\tpop ebx\n" \
+        "\txor eax, eax\n" \
+        "\tmov al, byte [ebx]\n" \
+        "\tpush eax\n"
+
+    #define MACHINE_PEEK16 \
+        "\tpop ebx\n" \
+        "\txor eax, eax\n" \
+        "\tmov ax, word [ebx]\n" \
+        "\tpush eax\n"
+
+    #define MACHINE_PEEK32 \
+        "\tpop ebx\n" \
+        "\tpush dword [ebx]\n"
+
+    #define MACHINE_PEEK64 \
+        "\tnop\n"
+
     #define MACHINE_FUNCTION_CALL \
         "\tcall %s\n" \
         "\tadd esp, %d\n" \
