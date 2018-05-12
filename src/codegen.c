@@ -148,7 +148,7 @@ static void statement_compile(FILE *output, lex_t *lexes) {
                 }
                 if (is_assignment) {
                     if (assignee_isglobal) {
-                        fprintf(output, MACHINE_EXTERN_REF, assignee_name);
+                        //fprintf(output, MACHINE_EXTERN_REF, assignee_name);
                         fprintf(output, MACHINE_ASSIGN_GLOBAL, assignee_name);
                     } else {
                         fprintf(output, MACHINE_ASSIGN_LOCAL, (int)assignee_off);
@@ -162,7 +162,7 @@ static void statement_compile(FILE *output, lex_t *lexes) {
                 break;
             case LEX_VARIABLE:
                 if (variable_resolve(&var, &offset, lexes[i].name, current_function)) {
-                    fprintf(output, MACHINE_EXTERN_REF, lexes[i].name);
+                    //fprintf(output, MACHINE_EXTERN_REF, lexes[i].name);
                     fprintf(output, MACHINE_PUSH_GLOBAL, lexes[i].name);
                 } else {
                     fprintf(output, MACHINE_PUSH_LOCAL, (int)offset);
@@ -205,7 +205,7 @@ static void statement_compile(FILE *output, lex_t *lexes) {
                     } else if (!strcmp(operator_stack[op_stack_ptr].name, "peek64")) {
                         fprintf(output, MACHINE_PEEK64);
                     } else {
-                        fprintf(output, MACHINE_EXTERN_REF, operator_stack[op_stack_ptr].name);
+                        //fprintf(output, MACHINE_EXTERN_REF, operator_stack[op_stack_ptr].name);
                         fprintf(output, MACHINE_FUNCTION_CALL, operator_stack[op_stack_ptr].name, function_arg_depth[fn_arg_ptr] * MACHINE_STACK_ELEMENT_SIZE);
                     }
                     op_stack_ptr--;
@@ -214,7 +214,7 @@ static void statement_compile(FILE *output, lex_t *lexes) {
                 break;
             case LEX_ADDRESSOF:
                 if (variable_resolve(&var, &offset, lexes[i].name, current_function)) {
-                    fprintf(output, MACHINE_EXTERN_REF, lexes[i].name);
+                    //fprintf(output, MACHINE_EXTERN_REF, lexes[i].name);
                     fprintf(output, MACHINE_PUSH_ADDROF_GLOBAL, lexes[i].name);
                 } else {
                     fprintf(output, MACHINE_PUSH_ADDROF_LOCAL, (int)offset);

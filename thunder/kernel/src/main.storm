@@ -1,0 +1,28 @@
+
+static vga_cursor_position;
+
+global putchar(var c)
+    poke8(0xb8000 + vga_cursor_position, c);
+
+    vga_cursor_position = vga_cursor_position + 2;
+
+    return 0;
+endfun
+
+global puts(var str)
+    var c;
+    var i;
+
+    while c = peek8(str + i);
+        putchar(c);
+        i = i + 1;
+    endwhile
+
+    return 0;
+endfun
+
+global main()
+    puts("hello world");
+
+    while 1; endwhile
+endfun
