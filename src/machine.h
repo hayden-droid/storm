@@ -59,8 +59,15 @@
         "\ttest eax, eax\n" \
         "\tjz .__l%d\n"
 
-    #define MACHINE_ENDIF \
+    #define MACHINE_INTLABEL \
         ".__l%d:\n"
+
+    #define MACHINE_WHILE \
+        "\ttest eax, eax\n" \
+        "\tjz .__l%d\n"
+
+    #define MACHINE_ENDWHILE \
+        "\tjmp .__l%d\n"
 
     #define MACHINE_FUNCTION_CALL \
         "\tcall %s\n" \

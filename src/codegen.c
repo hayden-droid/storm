@@ -218,9 +218,11 @@ static int labels = 0;
 typedef struct {
     int type;
     int label;
+    int labelstart;
 } keyword_t;
 
 #define KEYWORD_IF      1000
+#define KEYWORD_WHILE   2000
 
 static keyword_t keywords[1024];
 static size_t keywords_ptr = 0;
@@ -259,7 +261,20 @@ void codegen(FILE *output, lex_t *lexes) {
                 fprintf(output, MACHINE_IF, labels++);
                 break;
             case LEX_ENDIF:
-                fprintf(output, MACHINE_ENDIF, keywords[--keywords_ptr].label);
+                fprintf(output, MACHINE_INTLABEL, keywords[--keywords_ptr].label);
+                break;
+            case LEX_WHILE:
+                i++;
+                keywords[keywords_ptr].type = KEYWORD_WHILE;
+                keywords[keywords_ptr].labelstart = labels++;
+                keywords[keywords_ptr].label = labels++;
+                fprintf(output, MACHINE_INTLABEL, keywords[keywords_ptr].labelstart);
+                statement_compile(output, &lexes[i+1]);
+                fprintf(output, MACHINE_WHILE, keywords[keywords_ptr++].label);
+                break;
+            case LEX_ENDWHILE:
+                fprintf(output, MACHINE_ENDWHILE, keywords[--keywords_ptr].labelstart);
+                fprintf(output, MACHINE_INTLABEL, keywords[keywords_ptr].label);
                 break;
             case LEX_RETURN:
                 ret = 1;

@@ -209,6 +209,18 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                     goto continue2;
                 }
 
+                if (!strcmp(tokens[i].token, "while")) {
+                    fprintf(debug, "lex: while\n");
+                    lexes[cur_lex].type = LEX_WHILE;
+                    goto continue2;
+                }
+
+                if (!strcmp(tokens[i].token, "endwhile")) {
+                    fprintf(debug, "lex: endwhile\n");
+                    lexes[cur_lex].type = LEX_ENDWHILE;
+                    goto continue2;
+                }
+
                 /* it's a normal statement */
                 if (!is_statement) {
                     is_statement = 1;
