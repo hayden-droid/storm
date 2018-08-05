@@ -160,6 +160,9 @@
     #define MACHINE_LITERAL_LABEL_END \
         "\", 0\n"
 
+    #define MACHINE_LITERAL_HEX \
+        "\", 0x%x, \""
+
 #endif
 
 #ifdef TARGET_x86_64
@@ -354,6 +357,9 @@
 
     #define MACHINE_LITERAL_LABEL_END \
         "\", 0\n"
+
+    #define MACHINE_LITERAL_HEX \
+        "\", 0x%x, \""
 
 #endif
 
