@@ -109,6 +109,9 @@
     #define MACHINE_PEEK64 \
         "\tnop\n"
 
+    #define MACHINE_CDECL \
+        "\tnop\n"
+
     #define MACHINE_FUNCTION_CALL \
         "\tcall %s\n" \
         "\tadd esp, %d\n" \
@@ -152,10 +155,10 @@
         "\tpop eax\n"
 
     #define MACHINE_LITERAL_LABEL_BEGIN \
-        "__literal%d: db '"
+        "__literal%d: db \""
 
     #define MACHINE_LITERAL_LABEL_END \
-        "', 0\n"
+        "\", 0\n"
 
 #endif
 
@@ -273,6 +276,37 @@
         "\tpop rbx\n" \
         "\tpush qword [rbx]\n"
 
+    #define MACHINE_CDECL \
+        "cdecl:\n" \
+        "\tpop r12\n" /* put the return address in r10 */ \
+        "\tpop rcx\n" /* put the number of arguments to be passed in rcx */ \
+        "\tmov rax, qword [rsp + rcx*8]\n" /* rax contains the function's address */ \
+        "\tlea rbx, [rsp + rcx*8 - 8]\n" /* rdi points to top of args */ \
+        "\tmov rdi, qword [rbx]\n" \
+        "\tsub rbx, 8\n" \
+        "\tmov rsi, qword [rbx]\n" \
+        "\tsub rbx, 8\n" \
+        "\tmov rcx, qword [rbx]\n" \
+        "\tsub rbx, 8\n" \
+        "\tmov rdx, qword [rbx]\n" \
+        "\tsub rbx, 8\n" \
+        "\tmov r8, qword [rbx]\n" \
+        "\tsub rbx, 8\n" \
+        "\tmov r9, qword [rbx]\n" \
+        /* TODO support more than 6 args */ \
+        "\ttest rsp, 1111b\n" \
+        "\tjnz .align16\n" \
+        "\tcall rax\n" \
+        "\t.back:\n" \
+        "\tpush rcx\n" \
+        "\tpush r12\n" \
+        "\tret\n" \
+        "\t.align16:\n" \
+        "\tsub rsp, 8\n" \
+        "\tcall rax\n" \
+        "\tadd rsp, 8\n" \
+        "\tjmp .back\n"
+
     #define MACHINE_FUNCTION_CALL \
         "\tcall %s\n" \
         "\tadd rsp, %d\n" \
@@ -316,10 +350,10 @@
         "\tpop rax\n"
 
     #define MACHINE_LITERAL_LABEL_BEGIN \
-        "__literal%d: db '"
+        "__literal%d: db \""
 
     #define MACHINE_LITERAL_LABEL_END \
-        "', 0\n"
+        "\", 0\n"
 
 #endif
 

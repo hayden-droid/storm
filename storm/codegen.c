@@ -254,6 +254,9 @@ void codegen(FILE *output, lex_t *lexes) {
         switch (lexes[i].type) {
             case LEX_EOF:
                 return;
+            case LEX_EXTERN:
+                fprintf(output, MACHINE_EXTERN_REF, lexes[i].name);
+                break;
             case LEX_FUNCTION_DECLARATION:
                 current_function = &lexes[i].function;
                 new_function(output);

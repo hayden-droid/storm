@@ -52,6 +52,8 @@ typedef struct {
 #define LEX_SEMICOLON               200
 #define LEX_ADDRESSOF               500
 
+#define LEX_EXTERN                  990
+
 #define LEX_ENDWHILE                994
 #define LEX_WHILE                   995
 #define LEX_ENDIF                   996

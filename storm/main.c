@@ -5,12 +5,22 @@
 #include "tokeniser.h"
 #include "lexer.h"
 #include "codegen.h"
+#include "machine.h"
 
 FILE *sourcefd;
 FILE *outputasm;
 FILE *tmp0;
 
+//#define LOGGING
+
+#ifdef LOGGING
+    #define logging stderr
+#else
+    #define logging devnull
+#endif
+
 int main(int argc, char **argv) {
+    FILE *devnull = fopen("/dev/null", "w");
 
     if (argc < 2) {
         fprintf(stderr, "No source specified.\n");
@@ -44,15 +54,18 @@ int main(int argc, char **argv) {
 
     fclose(sourcefd);
 
+    fprintf(outputasm, MACHINE_SECTION_TEXT);
+    fprintf(outputasm, MACHINE_CDECL);
+
     rewind(tmp0);
 
     token_t *tokens = malloc(32768 * sizeof(token_t));
 
-    tokenise(tmp0, tokens, stderr);
+    tokenise(tmp0, tokens, logging);
 
     lex_t *lexes = malloc(32768 * sizeof(lex_t));
 
-    lex(lexes, tokens, stderr);
+    lex(lexes, tokens, logging);
 
     codegen(outputasm, lexes);
 

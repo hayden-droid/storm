@@ -1,0 +1,6 @@
+extern puts;
+
+global main()
+	cdecl(^puts, "Hello, world!", 1);
+	return 0;
+endfun

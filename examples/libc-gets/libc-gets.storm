@@ -1,0 +1,16 @@
+extern puts;
+extern printf;
+extern gets;
+extern malloc;
+extern free;
+
+global main()
+	var name;
+	name = cdecl(^malloc, 128, 1);
+	cdecl(^printf, "What's your name? ", 1);
+	cdecl(^gets, name, 1);
+	cdecl(^printf, "Hello, %s", name, 2);
+	cdecl(^puts, "", 1);
+	cdecl(^free, name, 1);
+	return 0;
+endfun

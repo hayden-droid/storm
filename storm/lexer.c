@@ -221,6 +221,14 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                     goto continue2;
                 }
 
+                if (!strcmp(tokens[i].token, "extern")) {
+                    fprintf(debug, "lex: extern\n");
+                    lexes[cur_lex].type = LEX_EXTERN;
+                    strcpy(lexes[cur_lex].name, tokens[i+1].token);
+                    i += 2;
+                    goto continue2;
+                }
+
                 /* it's a normal statement */
                 if (!is_statement) {
                     is_statement = 1;
