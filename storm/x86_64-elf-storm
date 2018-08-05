@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+	printf "Missing argument: source file.\n"
+	exit 1
+fi
+
+ASMFILE=$(mktemp)
+
+x86_64-stormc $1 $ASMFILE
+nasm $ASMFILE -f elf64 -o $1.o
+
+rm $ASMFILE
+
+exit 0

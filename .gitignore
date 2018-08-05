@@ -1,6 +1,6 @@
-/**/*-storm*
+/**/*-stormc*
 /**/*.o
 /**/*.s
 /**/*.iso
 /**/*.bin
-/**/Makefile
+/storm/Makefile
