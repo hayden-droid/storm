@@ -14,30 +14,30 @@ int main(int argc, char **argv) {
 
     if (argc < 2) {
         fprintf(stderr, "No source specified.\n");
-        abort();
+        return 1;
     }
 
     if (argc < 3) {
         fprintf(stderr, "No output name specified.\n");
-        abort();
+        return 1;
     }
 
     if (!(sourcefd = fopen(argv[1], "rb"))) {
         perror("Couldn't open source file");
-        abort();
+        return 1;
     }
 
     if (!(outputasm = fopen(argv[2], "wb"))) {
         fclose(sourcefd);
         perror("Couldn't open output file");
-        abort();
+        return 1;
     }
 
     if (!(tmp0 = tmpfile())) {
         fclose(sourcefd);
         fclose(outputasm);
         perror("Couldn't open tmp0");
-        abort();
+        return 1;
     }
 
     literals_convert(sourcefd, outputasm, tmp0);

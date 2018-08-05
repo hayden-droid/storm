@@ -4,7 +4,7 @@ set -e
 
 # Defaults
 PREFIX="/usr/local"
-TARGET="i386"
+TARGET="x86_64"
 [ -z "$CC" ] && CC="cc"
 [ -z "$CFLAGS" ] && CFLAGS="-pipe -O2 -Wall"
 [ -z "$LDFLAGS" ] && LDFLAGS=""
@@ -47,8 +47,8 @@ Available options:
                        (default: /usr/local)
 
     --target=TARGET    Specifies the architecture storm will target.
-                       Available options: i386
-                       (default: i386)
+                       Available options: i386, x86_64
+                       (default: x86_64)
 
     --help             Shows this help.
 
