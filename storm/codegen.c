@@ -66,8 +66,7 @@ static void new_function(FILE *output) {
     if (current_function->local_count)
         fprintf(output, MACHINE_ALLOCATE_STACK, current_function->local_count * MACHINE_STACK_ELEMENT_SIZE);
 
-
-
+    return;
 }
 
 static void new_global_var(FILE *output, variable_t var) {
@@ -83,6 +82,7 @@ static void new_global_var(FILE *output, variable_t var) {
 
     fprintf(output, MACHINE_GLOBAL_VAR, var.name);
 
+    return;
 }
 
 static void put_operator(FILE *output, operator_t op) {
@@ -105,7 +105,7 @@ static void put_operator(FILE *output, operator_t op) {
             break;
     }
 
-
+    return;
 }
 
 
@@ -114,6 +114,8 @@ static int op_stack_ptr = 0;
 
 static int function_arg_depth[1024];
 static int fn_arg_ptr = 0;
+
+static int cdecl_defined = 0;
 
 static void statement_compile(FILE *output, lex_t *lexes) {
 
@@ -148,7 +150,6 @@ static void statement_compile(FILE *output, lex_t *lexes) {
                 }
                 if (is_assignment) {
                     if (assignee_isglobal) {
-                        //fprintf(output, MACHINE_EXTERN_REF, assignee_name);
                         fprintf(output, MACHINE_ASSIGN_GLOBAL, assignee_name);
                     } else {
                         fprintf(output, MACHINE_ASSIGN_LOCAL, (int)assignee_off);
@@ -162,7 +163,6 @@ static void statement_compile(FILE *output, lex_t *lexes) {
                 break;
             case LEX_VARIABLE:
                 if (variable_resolve(&var, &offset, lexes[i].name, current_function)) {
-                    //fprintf(output, MACHINE_EXTERN_REF, lexes[i].name);
                     fprintf(output, MACHINE_PUSH_GLOBAL, lexes[i].name);
                 } else {
                     fprintf(output, MACHINE_PUSH_LOCAL, (int)offset);
@@ -205,7 +205,8 @@ static void statement_compile(FILE *output, lex_t *lexes) {
                     } else if (!strcmp(operator_stack[op_stack_ptr].name, "peek64")) {
                         fprintf(output, MACHINE_PEEK64);
                     } else {
-                        //fprintf(output, MACHINE_EXTERN_REF, operator_stack[op_stack_ptr].name);
+                        if (!strcmp(operator_stack[op_stack_ptr].name, "cdecl"))
+                            cdecl_defined = 1;
                         fprintf(output, MACHINE_FUNCTION_CALL, operator_stack[op_stack_ptr].name, function_arg_depth[fn_arg_ptr] * MACHINE_STACK_ELEMENT_SIZE);
                     }
                     op_stack_ptr--;
@@ -214,7 +215,6 @@ static void statement_compile(FILE *output, lex_t *lexes) {
                 break;
             case LEX_ADDRESSOF:
                 if (variable_resolve(&var, &offset, lexes[i].name, current_function)) {
-                    //fprintf(output, MACHINE_EXTERN_REF, lexes[i].name);
                     fprintf(output, MACHINE_PUSH_ADDROF_GLOBAL, lexes[i].name);
                 } else {
                     fprintf(output, MACHINE_PUSH_ADDROF_LOCAL, (int)offset);
@@ -253,6 +253,10 @@ void codegen(FILE *output, lex_t *lexes) {
     for (size_t i = 0; ; i++) {
         switch (lexes[i].type) {
             case LEX_EOF:
+                if (cdecl_defined) {
+                    fprintf(output, MACHINE_SECTION_TEXT);
+                    fprintf(output, MACHINE_CDECL);
+                }
                 return;
             case LEX_EXTERN:
                 fprintf(output, MACHINE_EXTERN_REF, lexes[i].name);
