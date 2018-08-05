@@ -41,8 +41,8 @@
         "\tpush eax\n"
 
     #define MACHINE_DIV \
-        "\tpop eax\n" \
         "\tpop ebx\n" \
+        "\tpop eax\n" \
         "\txor edx, edx\n" \
         "\tdiv ebx\n" \
         "\tpush eax\n"
@@ -205,8 +205,8 @@
         "\tpush rax\n"
 
     #define MACHINE_DIV \
-        "\tpop rax\n" \
         "\tpop rbx\n" \
+        "\tpop rax\n" \
         "\txor rdx, rdx\n" \
         "\tdiv rbx\n" \
         "\tpush rax\n"
