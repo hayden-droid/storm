@@ -12,6 +12,8 @@ ifeq ($(TARGET), i386)
 CFLAGS := $(CFLAGS) -DTARGET_i386
 else ifeq ($(TARGET), x86_64)
 CFLAGS := $(CFLAGS) -DTARGET_x86_64
+else ifeq ($(TARGET), subleq)
+CFLAGS := $(CFLAGS) -DTARGET_subleq
 else
 $(error Specified target architecture does not exist)
 endif

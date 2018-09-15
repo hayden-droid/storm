@@ -363,4 +363,8 @@
 
 #endif
 
+#ifdef TARGET_subleq
+#include "arch/subleq.h"
+#endif
+
 #endif
