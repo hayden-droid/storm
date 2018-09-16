@@ -47,7 +47,7 @@ Available options:
                        (default: /usr/local)
 
     --target=TARGET    Specifies the architecture storm will target.
-                       Available options: i386, x86_64
+                       Available options: i386, x86_64, subleq
                        (default: x86_64)
 
     --help             Shows this help.
