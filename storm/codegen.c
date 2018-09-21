@@ -103,6 +103,12 @@ static void put_operator(FILE *output, operator_t op) {
         case LEX_ISEQUAL:
             fprintf(output, MACHINE_ISEQUAL);
             break;
+        case LEX_ISABOVE:
+            fprintf(output, MACHINE_ISABOVE);
+            break;
+        case LEX_ISBELOW:
+            fprintf(output, MACHINE_ISBELOW);
+            break;
     }
 
     return;
@@ -267,6 +273,7 @@ void codegen(FILE *output, lex_t *lexes) {
                 in_function = 1;
                 break;
             case LEX_FUNCTION_END:
+                fprintf(output, MACHINE_RETURNZERO);
                 in_function = 0;
                 break;
             case LEX_VARIABLE_DECLARATION:
@@ -295,7 +302,7 @@ void codegen(FILE *output, lex_t *lexes) {
                 for (kw = keywords_ptr;
                      keywords[kw].type != KEYWORD_WHILE;
                      kw--);
-                fprintf(output, MACHINE_ENDWHILE, keywords[kw].labelstart);
+                fprintf(output, MACHINE_ENDWHILE, keywords[kw].label);
                 }
                 break;
             case LEX_WHILE:

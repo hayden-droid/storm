@@ -22,6 +22,12 @@
     "\tpop rbp\n"      \
     "\tret\n"
 
+#define MACHINE_RETURNZERO \
+    "\txor eax, eax\n" \
+    "\tmov rsp, rbp\n" \
+    "\tpop rbp\n"      \
+    "\tret\n"
+
 #define MACHINE_ADD \
     "\tpop rax\n"   \
     "\tadd qword [rsp], rax\n"
@@ -50,6 +56,24 @@
     "\tpushfq\n"                     \
     "\tand qword [rsp], 1 << 6\n" \
     "\tshr qword [rsp], 6\n"
+
+#define MACHINE_ISABOVE \
+    "\tpop rax\n" \
+    "\tpop rbx\n" \
+    "\txor ecx, ecx\n" \
+    "\tcmp rbx, rax\n" \
+    "\tjna $+4\n" \
+    "\tinc ecx\n" \
+    "\tpush rcx\n"
+
+#define MACHINE_ISBELOW \
+    "\tpop rax\n" \
+    "\tpop rbx\n" \
+    "\txor ecx, ecx\n" \
+    "\tcmp rbx, rax\n" \
+    "\tjnb $+4\n" \
+    "\tinc ecx\n" \
+    "\tpush rcx\n"
 
 #define MACHINE_IF      \
     "\ttest rax, rax\n" \

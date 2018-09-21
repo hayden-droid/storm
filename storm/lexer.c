@@ -102,6 +102,18 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                     lexes[cur_lex].type = LEX_ASSIGN;
                 }
                 break;
+            case TOKEN_GREATERTHAN:
+                fprintf(debug, "lex: isabove\n");
+                lexes[cur_lex].type = LEX_OPERATOR;
+                lexes[cur_lex].operator.type = LEX_ISABOVE;
+                lexes[cur_lex].operator.precedence = 500;
+                break;
+            case TOKEN_LESSTHAN:
+                fprintf(debug, "lex: isbelow\n");
+                lexes[cur_lex].type = LEX_OPERATOR;
+                lexes[cur_lex].operator.type = LEX_ISBELOW;
+                lexes[cur_lex].operator.precedence = 500;
+                break;
             case TOKEN_ADDRESSOF:
                 if (!is_statement) {
                     is_statement = 1;

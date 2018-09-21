@@ -30,6 +30,14 @@ a:
                 if (i) goto nospace;
                 token.type = TOKEN_EOF;
                 return token;
+            case '>':
+                if (i) goto nospace;
+                token.type = TOKEN_GREATERTHAN;
+                return token;
+            case '<':
+                if (i) goto nospace;
+                token.type = TOKEN_LESSTHAN;
+                return token;
             case '(':
                 if (i) goto nospace;
                 token.type = TOKEN_OPEN_BRACKET;

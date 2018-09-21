@@ -21,6 +21,12 @@
     "\tpop ebp\n"      \
     "\tret\n"
 
+#define MACHINE_RETURNZERO \
+    "\txor eax, eax\n" \
+    "\tmov esp, ebp\n" \
+    "\tpop ebp\n"      \
+    "\tret\n"
+
 #define MACHINE_ADD \
     "\tpop eax\n"   \
     "\tadd dword [esp], eax\n"
@@ -49,6 +55,24 @@
     "\tpushfd\n"                     \
     "\tand dword [esp], 1 << 6\n" \
     "\tshr dword [esp], 6\n"
+
+#define MACHINE_ISABOVE \
+    "\tpop eax\n" \
+    "\tpop ebx\n" \
+    "\txor ecx, ecx\n" \
+    "\tcmp ebx, eax\n" \
+    "\tjna $+3\n" \
+    "\tinc ecx\n" \
+    "\tpush ecx\n"
+
+#define MACHINE_ISBELOW \
+    "\tpop eax\n" \
+    "\tpop ebx\n" \
+    "\txor ecx, ecx\n" \
+    "\tcmp ebx, eax\n" \
+    "\tjnb $+3\n" \
+    "\tinc ecx\n" \
+    "\tpush ecx\n"
 
 #define MACHINE_IF      \
     "\ttest eax, eax\n" \
