@@ -289,6 +289,15 @@ void codegen(FILE *output, lex_t *lexes) {
             case LEX_ENDIF:
                 fprintf(output, MACHINE_INTLABEL, keywords[--keywords_ptr].label);
                 break;
+            case LEX_BREAK:
+                {
+                int kw;
+                for (kw = keywords_ptr;
+                     keywords[kw].type != KEYWORD_WHILE;
+                     kw--);
+                fprintf(output, MACHINE_ENDWHILE, keywords[kw].labelstart);
+                }
+                break;
             case LEX_WHILE:
                 i++;
                 keywords[keywords_ptr].type = KEYWORD_WHILE;

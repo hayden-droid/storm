@@ -209,6 +209,12 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                     goto continue2;
                 }
 
+                if (!strcmp(tokens[i].token, "break")) {
+                    fprintf(debug, "lex: break\n");
+                    lexes[cur_lex].type = LEX_BREAK;
+                    goto continue2;
+                }
+
                 if (!strcmp(tokens[i].token, "while")) {
                     fprintf(debug, "lex: while\n");
                     lexes[cur_lex].type = LEX_WHILE;

@@ -54,6 +54,8 @@ typedef struct {
 
 #define LEX_EXTERN                  990
 
+#define LEX_BREAK                   991
+
 #define LEX_ENDWHILE                994
 #define LEX_WHILE                   995
 #define LEX_ENDIF                   996

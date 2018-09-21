@@ -47,7 +47,7 @@
     "\tpop ebx\n"                    \
     "\tcmp eax, ebx\n"               \
     "\tpushfd\n"                     \
-    "\tand dword [esp], ~(1 << 6)\n" \
+    "\tand dword [esp], 1 << 6\n" \
     "\tshr dword [esp], 6\n"
 
 #define MACHINE_IF      \

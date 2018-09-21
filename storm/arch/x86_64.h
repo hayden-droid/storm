@@ -48,7 +48,7 @@
     "\tpop rbx\n"                    \
     "\tcmp rax, rbx\n"               \
     "\tpushfq\n"                     \
-    "\tand qword [rsp], ~(1 << 6)\n" \
+    "\tand qword [rsp], 1 << 6\n" \
     "\tshr qword [rsp], 6\n"
 
 #define MACHINE_IF      \
