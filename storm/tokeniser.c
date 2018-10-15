@@ -88,7 +88,11 @@ a:
                 return token;
             case '~':
                 if (i) goto nospace;
-                token.type = TOKEN_DEREFERENCE;
+                token.type = TOKEN_TILDE;
+                return token;
+            case '%':
+                if (i) goto nospace;
+                token.type = TOKEN_PERCENT;
                 return token;
             nospace:
                 ungetc(c, src);
@@ -119,65 +123,13 @@ break2:
 
 void tokenise(FILE *src, token_t *tokens, FILE *debug) {
 
-
     for (size_t i = 0; ; i++) {
         token_t token = get_token(src);
-
-        switch (token.type) {
-            case TOKEN_EOF:
-                fprintf(debug, "line %d: token_eof\n", token.line);
-                break;
-            case TOKEN_INTEGER:
-                fprintf(debug, "line %d: token_integer, value: %ld\n", token.line, token.integer);
-                break;
-            case TOKEN_OPEN_BRACKET:
-                fprintf(debug, "line %d: token_open_bracket\n", token.line);
-                break;
-            case TOKEN_CLOSE_BRACKET:
-                fprintf(debug, "line %d: token_close_bracket\n", token.line);
-                break;
-            case TOKEN_OPEN_BRACE:
-                fprintf(debug, "line %d: token_open_brace\n", token.line);
-                break;
-            case TOKEN_CLOSE_BRACE:
-                fprintf(debug, "line %d: token_close_brace\n", token.line);
-                break;
-            case TOKEN_SEMICOLON:
-                fprintf(debug, "line %d: token_semicolon\n", token.line);
-                break;
-            case TOKEN_ADD:
-                fprintf(debug, "line %d: token_add\n", token.line);
-                break;
-            case TOKEN_SUB:
-                fprintf(debug, "line %d: token_sub\n", token.line);
-                break;
-            case TOKEN_MUL:
-                fprintf(debug, "line %d: token_mul\n", token.line);
-                break;
-            case TOKEN_DIV:
-                fprintf(debug, "line %d: token_div\n", token.line);
-                break;
-            case TOKEN_EQUAL:
-                fprintf(debug, "line %d: token_equal\n", token.line);
-                break;
-            case TOKEN_COMMA:
-                fprintf(debug, "line %d: token_comma\n", token.line);
-                break;
-            case TOKEN_ADDRESSOF:
-                fprintf(debug, "line %d: token_addressof\n", token.line);
-                break;
-            case TOKEN_DEREFERENCE:
-                fprintf(debug, "line %d: token_dereference\n", token.line);
-                break;
-            case TOKEN_IDENTIFIER:
-                fprintf(debug, "line %d: token_identifier, value: %s\n", token.line, token.token);
-                break;
-        }
 
         tokens[i] = token;
 
         if (token.type == TOKEN_EOF) {
-            fprintf(debug, "loaded %d tokens\n", i);
+            fprintf(debug, "tokeniser: loaded %ld tokens\n", i);
             break;
         }
 

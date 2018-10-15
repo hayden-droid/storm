@@ -48,6 +48,13 @@
     "\tdiv ebx\n"      \
     "\tpush eax\n"
 
+#define MACHINE_MODULO    \
+    "\tpop ebx\n"      \
+    "\tpop eax\n"      \
+    "\txor edx, edx\n" \
+    "\tdiv ebx\n"      \
+    "\tpush edx\n"
+
 #define MACHINE_ISEQUAL              \
     "\tpop eax\n"                    \
     "\tpop ebx\n"                    \

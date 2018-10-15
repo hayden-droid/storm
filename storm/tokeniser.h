@@ -22,13 +22,14 @@
 #define TOKEN_SEMICOLON     40
 #define TOKEN_COMMA     41
 #define TOKEN_ADDRESSOF     60
-#define TOKEN_DEREFERENCE   61
+#define TOKEN_TILDE   61
+#define TOKEN_PERCENT   80
 
 
 typedef struct {
     int line;
     int type;
-    char token[1024];    
+    char token[1024];
     long integer;
 } token_t;
 

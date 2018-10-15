@@ -20,12 +20,14 @@
 #define MACHINE_RETURN \
     "\tmov rsp, rbp\n" \
     "\tpop rbp\n"      \
+    "\tpop rbx\n"      \
     "\tret\n"
 
 #define MACHINE_RETURNZERO \
     "\txor eax, eax\n" \
     "\tmov rsp, rbp\n" \
     "\tpop rbp\n"      \
+    "\tpop rbx\n"      \
     "\tret\n"
 
 #define MACHINE_ADD \
@@ -48,6 +50,13 @@
     "\txor rdx, rdx\n" \
     "\tdiv rbx\n"      \
     "\tpush rax\n"
+
+#define MACHINE_MODULO    \
+    "\tpop rbx\n"      \
+    "\tpop rax\n"      \
+    "\txor rdx, rdx\n" \
+    "\tdiv rbx\n"      \
+    "\tpush rdx\n"
 
 #define MACHINE_ISEQUAL              \
     "\tpop rax\n"                    \
@@ -137,10 +146,9 @@
 
 #define MACHINE_CDECL                                                                        \
     "cdecl:\n"                                                                               \
-    "\tpop r12\n"                      /* put the return address in r10 */                   \
-    "\tpop rcx\n"                      /* put the number of arguments to be passed in rcx */ \
-    "\tmov rax, qword [rsp + rcx*8]\n" /* rax contains the function's address */             \
-    "\tlea rbx, [rsp + rcx*8 - 8]\n"   /* rdi points to top of args */                       \
+    "\tmov rbx, qword [rsp + 8]\n" /* arg count in rbx */                                    \
+    "\tmov rax, qword [rsp + rbx*8 + 16]\n" /* rax contains the function's address */        \
+    "\tlea rbx, [rsp + rbx*8 + 8]\n"   /* rbx points to top of args */                       \
     "\tmov rdi, qword [rbx]\n"                                                               \
     "\tsub rbx, 8\n"                                                                         \
     "\tmov rsi, qword [rbx]\n"                                                               \
@@ -155,15 +163,12 @@
     "\ttest rsp, 1111b\n"                                                                    \
     "\tjnz .align16\n"                                                                       \
     "\tcall rax\n"                                                                           \
-    "\t.back:\n"                                                                             \
-    "\tpush rcx\n"                                                                           \
-    "\tpush r12\n"                                                                           \
     "\tret\n"                                                                                \
     "\t.align16:\n"                                                                          \
     "\tsub rsp, 8\n"                                                                         \
     "\tcall rax\n"                                                                           \
     "\tadd rsp, 8\n"                                                                         \
-    "\tjmp .back\n"
+    "\tret\n"
 
 #define MACHINE_FUNCTION_CALL \
     "\tcall %s\n"             \
@@ -171,6 +176,7 @@
     "\tpush rax\n"
 
 #define MACHINE_CREATE_FRAME \
+    "\tpush rbx\n"           \
     "\tpush rbp\n"           \
     "\tmov rbp, rsp\n"
 

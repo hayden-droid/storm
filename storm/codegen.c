@@ -100,6 +100,9 @@ static void put_operator(FILE *output, operator_t op) {
         case LEX_DIV:
             fprintf(output, MACHINE_DIV);
             break;
+        case LEX_MODULO:
+            fprintf(output, MACHINE_MODULO);
+            break;
         case LEX_ISEQUAL:
             fprintf(output, MACHINE_ISEQUAL);
             break;

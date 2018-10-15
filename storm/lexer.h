@@ -71,9 +71,7 @@ typedef struct {
 #define LEX_DIV                     1005
 #define LEX_ISABOVE                 1006
 #define LEX_ISBELOW                 1007
-
-#define LEX_INCREMENT               1006
-#define LEX_DECREMENT               1007
+#define LEX_MODULO                  1008
 
 #define LEX_STATEMENT_BEGIN         2000
 #define LEX_STATEMENT_END           2001

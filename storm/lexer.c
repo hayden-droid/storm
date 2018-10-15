@@ -31,7 +31,7 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                     cur_lex++;
                     fprintf(debug, "lex: statement begin\n");
                 }
-                fprintf(debug, "lex: integer %d\n", tokens[i].integer);
+                fprintf(debug, "lex: integer %ld\n", tokens[i].integer);
                 lexes[cur_lex].type = LEX_INTEGER;
                 lexes[cur_lex].integer = tokens[i].integer;
                 break;
@@ -86,6 +86,11 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                 lexes[cur_lex].operator.type = LEX_DIV;
                 lexes[cur_lex].operator.precedence = 2000;
                 break;
+            case TOKEN_PERCENT:
+                fprintf(debug, "lex: modulo\n");
+                lexes[cur_lex].type = LEX_OPERATOR;
+                lexes[cur_lex].operator.type = LEX_MODULO;
+                lexes[cur_lex].operator.precedence = 2000;
             case TOKEN_COMMA:
                 fprintf(debug, "lex: comma\n");
                 lexes[cur_lex].type = LEX_COMMA;
@@ -95,7 +100,7 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                     i++;
                     lexes[cur_lex].type = LEX_OPERATOR;
                     lexes[cur_lex].operator.type = LEX_ISEQUAL;
-                    lexes[cur_lex].operator.precedence = 500;
+                    lexes[cur_lex].operator.precedence = 400;
                     fprintf(debug, "lex: isequal\n");
                 } else {
                     fprintf(debug, "lex: assign\n");
@@ -161,7 +166,7 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                                         types[lexes[cur_lex].function.args[jj].type]);
                             }
                             lexes[cur_lex].function.arg_count = jj;
-                            fprintf(debug, "lex: end of declaration, arg count = %d\n", jj);
+                            fprintf(debug, "lex: end of declaration, arg count = %ld\n", jj);
                             in_function = 1;
                             current_function = &lexes[cur_lex].function;
                         } else {
