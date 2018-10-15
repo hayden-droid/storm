@@ -5,8 +5,7 @@ extern malloc;
 extern free;
 
 global main()
-	var name;
-	name = cdecl(^malloc, 128, 1);
+	var name = cdecl(^malloc, 128, 1);
 	cdecl(^printf, "What's your name? ", 1);
 	cdecl(^gets, name, 1);
 	cdecl(^printf, "Hello, %s", name, 2);

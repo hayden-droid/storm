@@ -75,8 +75,7 @@ typedef struct {
 
 #define LEX_STATEMENT_BEGIN         2000
 #define LEX_STATEMENT_END           2001
-#define LEX_SUBSTATEMENT_BEGIN      2002
-#define LEX_SUBSTATEMENT_END        2003
+#define LEX_EMPTY_STATEMENT         3000
 
 
 void lex(lex_t *, token_t *, FILE *);

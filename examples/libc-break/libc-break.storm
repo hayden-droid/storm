@@ -2,8 +2,7 @@ extern printf;
 extern puts;
 
 global main()
-	var cnt;
-	cnt = 0;
+	var cnt = 5;
 	while cnt < 10;
 		cdecl(^printf, "%d\n", cnt, 2);
 		cnt = cnt + 1;

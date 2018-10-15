@@ -58,6 +58,11 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                 lexes[cur_lex].type = LEX_CLOSE_BRACKET;
                 break;
             case TOKEN_SEMICOLON:
+                if (!is_statement) {
+                    lexes[cur_lex].type = LEX_EMPTY_STATEMENT;
+                    fprintf(debug, "lex: empty statement\n");
+                    break;
+                }
                 is_statement = 0;
                 fprintf(debug, "lex: statement end\n");
                 lexes[cur_lex].type = LEX_STATEMENT_END;
@@ -174,13 +179,20 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                             if (in_function) {
                                 /*** local variable declaration ***/
                                 current_function->locals[current_function->local_count].type = j;
-                                i++;
-                                strcpy(current_function->locals[current_function->local_count].name, tokens[i].token);
+                                strcpy(current_function->locals[current_function->local_count].name, tokens[i+1].token);
                                 fprintf(debug, "lex: local variable declaration: name = %s, type = %s\n",
                                         current_function->locals[current_function->local_count].name,
                                         types[current_function->locals[current_function->local_count].type]);
                                 current_function->local_count++;
-                                cur_lex--;
+                                /*** next comes a statement with assignment ***/
+                                if (tokens[i+2].type != TOKEN_SEMICOLON) {
+                                    is_statement = 1;
+                                    lexes[cur_lex].type = LEX_STATEMENT_BEGIN;
+                                    fprintf(debug, "lex: statement begin\n");
+                                } else {
+                                    cur_lex--;
+                                    i += 2;
+                                }
                             } else {
                                 /*** global variable declaration ***/
                                 lexes[cur_lex].type = LEX_VARIABLE_DECLARATION;
@@ -190,10 +202,10 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                                 fprintf(debug, "lex: global variable declaration: name = %s, type = %s\n",
                                         lexes[cur_lex].variable.name,
                                         types[lexes[cur_lex].variable.type]);
-                            }
-                            if (tokens[++i].type != TOKEN_SEMICOLON) {
-                                fprintf(stderr, "line %d: error: expected ';'\n", tokens[i].line);
-                                abort();
+                                if (tokens[++i].type != TOKEN_SEMICOLON) {
+                                    fprintf(stderr, "line %d: error: expected ';'\n", tokens[i].line);
+                                    abort();
+                                }
                             }
                         }
                         goto continue2;
