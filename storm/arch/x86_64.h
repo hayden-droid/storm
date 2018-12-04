@@ -1,5 +1,5 @@
-
 /* Target x86_64 */
+
 #define MACHINE_STACK_ELEMENT_SIZE 8
 
 #define MACHINE_SECTION_TEXT \
@@ -59,29 +59,27 @@
     "\tpush rdx\n"
 
 #define MACHINE_ISEQUAL              \
+    "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
     "\tpop rbx\n"                    \
-    "\tcmp rax, rbx\n"               \
-    "\tpushfq\n"                     \
-    "\tand qword [rsp], 1 << 6\n" \
-    "\tshr qword [rsp], 6\n"
-
-#define MACHINE_ISABOVE \
-    "\tpop rax\n" \
-    "\tpop rbx\n" \
-    "\txor ecx, ecx\n" \
-    "\tcmp rbx, rax\n" \
-    "\tjna $+4\n" \
-    "\tinc ecx\n" \
+    "\tcmp rbx, rax\n"               \
+    "\tsete cl\n"                    \
     "\tpush rcx\n"
 
-#define MACHINE_ISBELOW \
-    "\tpop rax\n" \
-    "\tpop rbx\n" \
-    "\txor ecx, ecx\n" \
-    "\tcmp rbx, rax\n" \
-    "\tjnb $+4\n" \
-    "\tinc ecx\n" \
+#define MACHINE_ISABOVE              \
+    "\txor ecx, ecx\n"               \
+    "\tpop rax\n"                    \
+    "\tpop rbx\n"                    \
+    "\tcmp rbx, rax\n"               \
+    "\tseta cl\n"                    \
+    "\tpush rcx\n"
+
+#define MACHINE_ISBELOW              \
+    "\txor ecx, ecx\n"               \
+    "\tpop rax\n"                    \
+    "\tpop rbx\n"                    \
+    "\tcmp rbx, rax\n"               \
+    "\tsetb cl\n"                    \
     "\tpush rcx\n"
 
 #define MACHINE_IF      \
