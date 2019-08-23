@@ -69,8 +69,10 @@ typedef struct {
 #define LEX_SUB                     1003
 #define LEX_MUL                     1004
 #define LEX_DIV                     1005
-#define LEX_ISABOVE                 1006
-#define LEX_ISBELOW                 1007
+#define LEX_ISGREATER               1006
+#define LEX_ISLESS                  1007
+#define LEX_ISGREATEROREQUAL        10061
+#define LEX_ISLESSOREQUAL           10071
 #define LEX_MODULO                  1008
 
 #define LEX_STATEMENT_BEGIN         2000

@@ -66,20 +66,36 @@
     "\tsete cl\n"                    \
     "\tpush rcx\n"
 
-#define MACHINE_ISABOVE              \
+#define MACHINE_ISGREATER              \
     "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
     "\tpop rbx\n"                    \
     "\tcmp rbx, rax\n"               \
-    "\tseta cl\n"                    \
+    "\tsetg cl\n"                    \
     "\tpush rcx\n"
 
-#define MACHINE_ISBELOW              \
+#define MACHINE_ISLESS              \
     "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
     "\tpop rbx\n"                    \
     "\tcmp rbx, rax\n"               \
-    "\tsetb cl\n"                    \
+    "\tsetl cl\n"                    \
+    "\tpush rcx\n"
+
+#define MACHINE_ISGREATEROREQUAL              \
+    "\txor ecx, ecx\n"               \
+    "\tpop rax\n"                    \
+    "\tpop rbx\n"                    \
+    "\tcmp rbx, rax\n"               \
+    "\tsetge cl\n"                    \
+    "\tpush rcx\n"
+
+#define MACHINE_ISLESSOREQUAL              \
+    "\txor ecx, ecx\n"               \
+    "\tpop rax\n"                    \
+    "\tpop rbx\n"                    \
+    "\tcmp rbx, rax\n"               \
+    "\tsetle cl\n"                    \
     "\tpush rcx\n"
 
 #define MACHINE_IF      \

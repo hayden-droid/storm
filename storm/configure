@@ -47,7 +47,7 @@ Available options:
                        (default: /usr/local)
 
     --target=TARGET    Specifies the architecture storm will target.
-                       Available options: i386, x86_64, subleq
+                       Available options: i386, x86_64
                        (default: x86_64)
 
     --help             Shows this help.
@@ -70,17 +70,17 @@ else
 	exit 1
 fi
 
-cp Makefile.in Makefile
-
-sed -i "s|@@prefix@@|$PREFIX|g" Makefile
 printf "Prefix: $PREFIX\n"
-sed -i "s|@@target@@|$TARGET|g" Makefile
 printf "Target: $TARGET\n"
-sed -i "s|@@cc@@|$CC|g" Makefile
 printf "CC: $CC\n"
-sed -i "s|@@cflags@@|$CFLAGS|g" Makefile
 printf "CFLAGS: $CFLAGS\n"
-sed -i "s|@@ldflags@@|$LDFLAGS|g" Makefile
 printf "LDFLAGS: $LDFLAGS\n"
+sed "
+s|@@prefix@@|$PREFIX|g;
+s|@@target@@|$TARGET|g;
+s|@@cc@@|$CC|g;
+s|@@cflags@@|$CFLAGS|g;
+s|@@ldflags@@|$LDFLAGS|g
+" < Makefile.in > Makefile
 
 exit 0

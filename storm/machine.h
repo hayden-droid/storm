@@ -9,8 +9,4 @@
 #include "arch/x86_64.h"
 #endif
 
-#ifdef TARGET_subleq
-#include "arch/subleq.h"
-#endif
-
 #endif

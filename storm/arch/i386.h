@@ -58,27 +58,41 @@
 #define MACHINE_ISEQUAL              \
     "\tpop eax\n"                    \
     "\tpop ebx\n"                    \
-    "\tcmp eax, ebx\n"               \
-    "\tpushfd\n"                     \
-    "\tand dword [esp], 1 << 6\n" \
-    "\tshr dword [esp], 6\n"
-
-#define MACHINE_ISABOVE \
-    "\tpop eax\n" \
-    "\tpop ebx\n" \
     "\txor ecx, ecx\n" \
-    "\tcmp ebx, eax\n" \
-    "\tjna $+3\n" \
-    "\tinc ecx\n" \
+    "\tcmp eax, ebx\n"               \
+    "\tsete cl\n" \
     "\tpush ecx\n"
 
-#define MACHINE_ISBELOW \
+#define MACHINE_ISGREATER \
     "\tpop eax\n" \
     "\tpop ebx\n" \
     "\txor ecx, ecx\n" \
     "\tcmp ebx, eax\n" \
-    "\tjnb $+3\n" \
-    "\tinc ecx\n" \
+    "\tsetg cl\n" \
+    "\tpush ecx\n"
+
+#define MACHINE_ISLESS \
+    "\tpop eax\n" \
+    "\tpop ebx\n" \
+    "\txor ecx, ecx\n" \
+    "\tcmp ebx, eax\n" \
+    "\tsetl cl\n" \
+    "\tpush ecx\n"
+
+#define MACHINE_ISGREATERORQEUAL \
+    "\tpop eax\n" \
+    "\tpop ebx\n" \
+    "\txor ecx, ecx\n" \
+    "\tcmp ebx, eax\n" \
+    "\tsetge cl\n" \
+    "\tpush ecx\n"
+
+#define MACHINE_ISLESSOREQUAL \
+    "\tpop eax\n" \
+    "\tpop ebx\n" \
+    "\txor ecx, ecx\n" \
+    "\tcmp ebx, eax\n" \
+    "\tsetle cl\n" \
     "\tpush ecx\n"
 
 #define MACHINE_IF      \

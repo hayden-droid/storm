@@ -106,11 +106,17 @@ static void put_operator(FILE *output, operator_t op) {
         case LEX_ISEQUAL:
             fprintf(output, MACHINE_ISEQUAL);
             break;
-        case LEX_ISABOVE:
-            fprintf(output, MACHINE_ISABOVE);
+        case LEX_ISGREATER:
+            fprintf(output, MACHINE_ISGREATER);
             break;
-        case LEX_ISBELOW:
-            fprintf(output, MACHINE_ISBELOW);
+        case LEX_ISLESS:
+            fprintf(output, MACHINE_ISLESS);
+            break;
+        case LEX_ISGREATEROREQUAL:
+            fprintf(output, MACHINE_ISGREATEROREQUAL);
+            break;
+        case LEX_ISLESSOREQUAL:
+            fprintf(output, MACHINE_ISLESSOREQUAL);
             break;
     }
 
