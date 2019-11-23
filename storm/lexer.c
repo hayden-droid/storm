@@ -302,5 +302,4 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
         continue2:
         ;
     }
-
 }
