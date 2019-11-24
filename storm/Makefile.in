@@ -41,5 +41,5 @@ dist-clean: distclean
 
 install: all
 	mkdir -p $(PREFIX)/bin
-	cp $(TARGET)-stormc $(PREFIX)/bin
-	cp $(TARGET)-elf-storm $(PREFIX)/bin
+	install $(TARGET)-stormc $(PREFIX)/bin
+	install $(TARGET)-elf-storm $(PREFIX)/bin

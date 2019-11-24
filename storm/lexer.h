@@ -32,53 +32,57 @@ typedef struct {
     variable_t variable;
     long integer;
 } lex_t;
+ 
+enum lex_dtype_t {
+    LEX_DTYPE_INT,
+    LEX_DTYPE_GLOBAL,
+    LEX_DTYPE_STATIC
+};
 
-#define LEX_DTYPE_INT 0
-#define LEX_DTYPE_GLOBAL 1
-#define LEX_DTYPE_STATIC 2
+enum lex_type_t {
+    LEX_EOF,
 
-#define LEX_EOF                     0
-#define LEX_FUNCTION_DECLARATION    10
-#define LEX_FUNCTION_END            11
-#define LEX_FUNCTION_CALL           20
-#define LEX_VARIABLE_DECLARATION    30
-#define LEX_VARIABLE                40
-#define LEX_INTEGER                 50
-#define LEX_COMMA                   60
-#define LEX_BLOCK_BEGIN             100
-#define LEX_BLOCK_END               110
-#define LEX_OPEN_BRACKET            120
-#define LEX_CLOSE_BRACKET           130
-#define LEX_SEMICOLON               200
-#define LEX_ADDRESSOF               500
+    LEX_FUNCTION_DECLARATION,
+    LEX_FUNCTION_END,
+    LEX_FUNCTION_CALL,
+    LEX_VARIABLE_DECLARATION,
+    LEX_VARIABLE,
+    LEX_INTEGER,
+    LEX_COMMA,
+    LEX_BLOCK_BEGIN,
+    LEX_BLOCK_END,
+    LEX_OPEN_BRACKET,
+    LEX_CLOSE_BRACKET,
+    LEX_SEMICOLON,
+    LEX_ADDRESSOF,
 
-#define LEX_EXTERN                  990
+    LEX_EXTERN,
 
-#define LEX_BREAK                   991
+    LEX_BREAK,
 
-#define LEX_ENDWHILE                994
-#define LEX_WHILE                   995
-#define LEX_ENDIF                   996
-#define LEX_IF                      997
-#define LEX_RETURN                  998
-#define LEX_OPERATOR                999
+    LEX_ENDWHILE,
+    LEX_WHILE,
+    LEX_ENDIF,
+    LEX_IF,
+    LEX_RETURN,
+    LEX_OPERATOR,
 
-#define LEX_ASSIGN                  1000
-#define LEX_ISEQUAL                 1001
-#define LEX_ADD                     1002
-#define LEX_SUB                     1003
-#define LEX_MUL                     1004
-#define LEX_DIV                     1005
-#define LEX_ISGREATER               1006
-#define LEX_ISLESS                  1007
-#define LEX_ISGREATEROREQUAL        10061
-#define LEX_ISLESSOREQUAL           10071
-#define LEX_MODULO                  1008
+    LEX_ASSIGN,
+    LEX_ISEQUAL,
+    LEX_ADD,
+    LEX_SUB,
+    LEX_MUL,
+    LEX_DIV,
+    LEX_ISGREATER,
+    LEX_ISLESS,
+    LEX_ISGREATEROREQUAL,
+    LEX_ISLESSOREQUAL,
+    LEX_MODULO,
 
-#define LEX_STATEMENT_BEGIN         2000
-#define LEX_STATEMENT_END           2001
-#define LEX_EMPTY_STATEMENT         3000
-
+    LEX_STATEMENT_BEGIN,
+    LEX_STATEMENT_END,
+    LEX_EMPTY_STATEMENT
+};
 
 void lex(lex_t *, token_t *, FILE *);
 

@@ -79,7 +79,7 @@
     "\tsetl cl\n" \
     "\tpush ecx\n"
 
-#define MACHINE_ISGREATERORQEUAL \
+#define MACHINE_ISGREATEROREQUAL \
     "\tpop eax\n" \
     "\tpop ebx\n" \
     "\txor ecx, ecx\n" \
