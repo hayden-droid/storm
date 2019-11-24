@@ -1,12 +1,11 @@
 STORM = i386-elf-storm
-LD = i386-elf-ld
+LD    = ld
 
-STORM_FILES = $(shell find src -type f -name '*.storm')
-ASM_FILES = $(shell find asm -type f -name '*.asm') $(shell find startup -type f -name '*.asm')
-OBJ = $(STORM_FILES:.storm=.storm.o) $(ASM_FILES:.asm=.o)
+STORM_FILES := $(shell find . -type f -name '*.storm')
+ASM_FILES   := $(shell find . -type f -name '*.asm')
+OBJ         := $(STORM_FILES:.storm=.storm.o) $(ASM_FILES:.asm=.o)
 
-LDFLAGS = -nostdlib \
-    -T ./linker.ld
+LDFLAGS = -melf_i386 -nostdlib -T./linker.ld
 
 .PHONY: clean
 

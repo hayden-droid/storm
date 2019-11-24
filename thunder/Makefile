@@ -1,4 +1,4 @@
-.PHONY: kernel_target clean
+.PHONY: kernel_target clean run
 
 notarget: thunder.iso
 
@@ -14,3 +14,6 @@ thunder.iso: kernel_target
 	cp boot/grub.cfg isodir/boot/grub/grub.cfg
 	grub-mkrescue -o thunder.iso isodir
 	rm -rf isodir
+
+run:
+	qemu-system-x86_64 -net none -cdrom thunder.iso -boot d
