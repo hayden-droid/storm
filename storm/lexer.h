@@ -18,21 +18,23 @@ typedef struct {
     char name[128];
     int type;
     variable_t args[128];
-    int arg_count;
+    size_t arg_count;
     variable_t locals[128];
-    int local_count;
+    size_t local_count;
 } function_t;
 
 typedef struct {
     char name[128];
     int line;
     int type;
-    operator_t operator;
-    function_t function;
-    variable_t variable;
+    union {
+        operator_t operator;
+        function_t function;
+        variable_t variable;
+    };
     long integer;
 } lex_t;
- 
+
 enum lex_dtype_t {
     LEX_DTYPE_INT,
     LEX_DTYPE_GLOBAL,

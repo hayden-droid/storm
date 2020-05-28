@@ -195,7 +195,7 @@
     "\tmov rbp, rsp\n"
 
 #define MACHINE_ALLOCATE_STACK \
-    "\tsub rsp, %d\n"
+    "\tsub rsp, %zu\n"
 
 #define MACHINE_GLOBAL_VAR \
     "%s: dq 0\n"

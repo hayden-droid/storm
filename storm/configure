@@ -6,7 +6,7 @@ set -e
 PREFIX="/usr/local"
 TARGET="x86_64"
 [ -z "$CC" ] && CC="cc"
-[ -z "$CFLAGS" ] && CFLAGS="-pipe -O2 -Wall"
+[ -z "$CFLAGS" ] && CFLAGS="-pipe -O2 -Wall -Wextra"
 [ -z "$LDFLAGS" ] && LDFLAGS=""
 
 for i in "$@"; do

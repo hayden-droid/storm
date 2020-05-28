@@ -162,7 +162,7 @@
     "\tmov ebp, esp\n"
 
 #define MACHINE_ALLOCATE_STACK \
-    "\tsub esp, %d\n"
+    "\tsub esp, %zu\n"
 
 #define MACHINE_GLOBAL_VAR \
     "%s: dd 0\n"

@@ -96,6 +96,7 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                 lexes[cur_lex].type = LEX_OPERATOR;
                 lexes[cur_lex].operator.type = LEX_MODULO;
                 lexes[cur_lex].operator.precedence = 2000;
+                break;
             case TOKEN_COMMA:
                 fprintf(debug, "lex: comma\n");
                 lexes[cur_lex].type = LEX_COMMA;

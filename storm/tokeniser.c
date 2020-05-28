@@ -16,84 +16,42 @@ token_t get_token(FILE *src) {
         if (c == '\n')
             get_token_line++;
     }
-    goto a;
 
+    goto enter;
     for (;;) {
         c = fgetc(src);
-a:
+enter:
         if (isspace(c))
             break;
 
         /* other tokens */
         switch (c) {
-            case EOF:
-                if (i) goto nospace;
-                token.type = TOKEN_EOF;
-                return token;
-            case '>':
-                if (i) goto nospace;
-                token.type = TOKEN_GREATERTHAN;
-                return token;
-            case '<':
-                if (i) goto nospace;
-                token.type = TOKEN_LESSTHAN;
-                return token;
-            case '(':
-                if (i) goto nospace;
-                token.type = TOKEN_OPEN_BRACKET;
-                return token;
-            case ')':
-                if (i) goto nospace;
-                token.type = TOKEN_CLOSE_BRACKET;
-                return token;
-            case '{':
-                if (i) goto nospace;
-                token.type = TOKEN_OPEN_BRACE;
-                return token;
-            case '}':
-                if (i) goto nospace;
-                token.type = TOKEN_CLOSE_BRACE;
-                return token;
-            case ';':
-                if (i) goto nospace;
-                token.type = TOKEN_SEMICOLON;
-                return token;
-            case '+':
-                if (i) goto nospace;
-                token.type = TOKEN_ADD;
-                return token;
-            case '-':
-                if (i) goto nospace;
-                token.type = TOKEN_SUB;
-                return token;
-            case '*':
-                if (i) goto nospace;
-                token.type = TOKEN_MUL;
-                return token;
-            case '/':
-                if (i) goto nospace;
-                token.type = TOKEN_DIV;
-                return token;
-            case '=':
-                if (i) goto nospace;
-                token.type = TOKEN_EQUAL;
-                return token;
-            case ',':
-                if (i) goto nospace;
-                token.type = TOKEN_COMMA;
-                return token;
-            case '^':
-                if (i) goto nospace;
-                token.type = TOKEN_ADDRESSOF;
-                return token;
-            case '~':
-                if (i) goto nospace;
-                token.type = TOKEN_TILDE;
-                return token;
-            case '%':
-                if (i) goto nospace;
-                token.type = TOKEN_PERCENT;
-                return token;
+            #define TOKEN(C, T) \
+                case C: \
+                    if (i) goto nospace; \
+                    token.type = T; \
+                    return token
+
+            TOKEN(EOF, TOKEN_EOF);
+            TOKEN('>', TOKEN_GREATERTHAN);
+            TOKEN('<', TOKEN_LESSTHAN);
+            TOKEN('(', TOKEN_OPEN_BRACKET);
+            TOKEN(')', TOKEN_CLOSE_BRACKET);
+            TOKEN('{', TOKEN_OPEN_BRACE);
+            TOKEN('}', TOKEN_CLOSE_BRACE);
+            TOKEN(';', TOKEN_SEMICOLON);
+            TOKEN('+', TOKEN_ADD);
+            TOKEN('-', TOKEN_SUB);
+            TOKEN('*', TOKEN_MUL);
+            TOKEN('/', TOKEN_DIV);
+            TOKEN('=', TOKEN_EQUAL);
+            TOKEN(',', TOKEN_COMMA);
+            TOKEN('^', TOKEN_ADDRESSOF);
+            TOKEN('~', TOKEN_TILDE);
+            TOKEN('%', TOKEN_PERCENT);
+
+            #undef TOKEN
+
             nospace:
                 ungetc(c, src);
                 goto break2;
@@ -122,7 +80,6 @@ break2:
 }
 
 void tokenise(FILE *src, token_t *tokens, FILE *debug) {
-
     for (size_t i = 0; ; i++) {
         token_t token = get_token(src);
 
@@ -134,7 +91,4 @@ void tokenise(FILE *src, token_t *tokens, FILE *debug) {
         }
 
     }
-
-    return;
-
 }
