@@ -6,11 +6,6 @@
 #include "lexer.h"
 #include "machine.h"
 
-#define TYPES_COUNT 3
-static char *types[TYPES_COUNT] = {
-    "var", "global", "static"
-};
-
 static int is_statement = 0;
 static int in_function = 0;
 static function_t *current_function;
@@ -20,17 +15,19 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
 
     for (size_t i = 0; ; i++, cur_lex++) {
         switch (tokens[i].type) {
+            #define ENTER_STATEMENT \
+                if (!is_statement) { \
+                    is_statement = 1; \
+                    lexes[cur_lex].type = LEX_STATEMENT_BEGIN; \
+                    cur_lex++; \
+                    fprintf(debug, "lex: statement begin\n"); \
+                }
             case TOKEN_EOF:
                 fprintf(debug, "lex: token eof\n");
                 lexes[cur_lex].type = LEX_EOF;
                 return;
             case TOKEN_INTEGER:
-                if (!is_statement) {
-                    is_statement = 1;
-                    lexes[cur_lex].type = LEX_STATEMENT_BEGIN;
-                    cur_lex++;
-                    fprintf(debug, "lex: statement begin\n");
-                }
+                ENTER_STATEMENT;
                 fprintf(debug, "lex: integer %ld\n", tokens[i].integer);
                 lexes[cur_lex].type = LEX_INTEGER;
                 lexes[cur_lex].integer = tokens[i].integer;
@@ -44,12 +41,7 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                 lexes[cur_lex].type = LEX_BLOCK_END;
                 break;
             case TOKEN_OPEN_BRACKET:
-                if (!is_statement) {
-                    is_statement = 1;
-                    lexes[cur_lex].type = LEX_STATEMENT_BEGIN;
-                    cur_lex++;
-                    fprintf(debug, "lex: statement begin\n");
-                }
+                ENTER_STATEMENT;
                 fprintf(debug, "lex: open bracket\n");
                 lexes[cur_lex].type = LEX_OPEN_BRACKET;
                 break;
@@ -180,6 +172,13 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                                     if (!strcmp(tokens[i].token, types[j])) {
                                         lexes[cur_lex].function.args[jj].type = j;
                                     }
+                                }
+                                if (lexes[cur_lex].function.args[jj].type == LEX_DTYPE_INVALID) {
+                                    fprintf(stderr, "Invalid type `%s` for argument `%s` of function `%s`.\n",
+                                            tokens[i].token,
+                                            tokens[i+1].token,
+                                            lexes[cur_lex].function.name);
+                                    abort();
                                 }
                                 i++;
                                 strcpy(lexes[cur_lex].function.args[jj].name, tokens[i].token);

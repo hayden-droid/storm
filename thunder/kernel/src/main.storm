@@ -1,7 +1,7 @@
 
 static vga_cursor_position;
 
-global putchar(var c)
+global putchar(int c)
     poke8(0xb8000 + vga_cursor_position, c);
 
     vga_cursor_position = vga_cursor_position + 2;
@@ -9,9 +9,9 @@ global putchar(var c)
     return 0;
 endfun
 
-global puts(var str)
-    var c;
-    var i;
+global puts(int str)
+    int c;
+    int i = 0;
 
     while c = peek8(str + i);
         putchar(c);

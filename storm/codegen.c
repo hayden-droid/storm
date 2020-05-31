@@ -255,8 +255,10 @@ typedef struct {
     int labelstart;
 } keyword_t;
 
-#define KEYWORD_IF      1000
-#define KEYWORD_WHILE   2000
+enum keywords {
+    KEYWORD_IF,
+    KEYWORD_WHILE
+};
 
 static keyword_t keywords[1024];
 static size_t keywords_ptr = 0;

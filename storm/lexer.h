@@ -36,9 +36,18 @@ typedef struct {
 } lex_t;
 
 enum lex_dtype_t {
+    LEX_DTYPE_INVALID,
     LEX_DTYPE_INT,
+    LEX_DTYPE_BYTE,
+    LEX_DTYPE_UINT,
+    LEX_DTYPE_UBYTE,
     LEX_DTYPE_GLOBAL,
-    LEX_DTYPE_STATIC
+    LEX_DTYPE_STATIC,
+    TYPES_COUNT
+};
+
+__attribute__((unused)) static char *types[TYPES_COUNT] = {
+    "invalid", "int", "byte", "uint", "ubyte", "global", "static"
 };
 
 enum lex_type_t {

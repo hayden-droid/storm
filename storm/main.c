@@ -7,7 +7,7 @@
 #include "codegen.h"
 #include "machine.h"
 
-//#define LOGGING
+#define LOGGING
 
 #ifdef LOGGING
     #define logging stderr
