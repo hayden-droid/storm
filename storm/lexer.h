@@ -79,6 +79,9 @@ enum lex_type_t {
     LEX_OPERATOR,
 
     LEX_ASSIGN,
+    LEX_ADD_AND_ASSIGN,
+    LEX_SUB_AND_ASSIGN,
+
     LEX_ISEQUAL,
     LEX_ADD,
     LEX_SUB,

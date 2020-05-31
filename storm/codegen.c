@@ -138,16 +138,24 @@ static void statement_compile(FILE *output, lex_t *lexes) {
     ssize_t offset;
 
     int is_assignment = 0;
+    int assignment_type;
     ssize_t assignee_off;
     char *assignee_name;
     int assignee_isglobal;
     variable_t assignee;
 
-    if (lexes[1].type == LEX_ASSIGN) {
-        is_assignment = 1;
-        assignee_isglobal = variable_resolve(&assignee, &assignee_off, lexes[0].name, current_function);
-        assignee_name = lexes[0].name;
-        lexes += 2;
+    switch (lexes[1].type) {
+        case LEX_ASSIGN:
+        case LEX_ADD_AND_ASSIGN:
+        case LEX_SUB_AND_ASSIGN:
+            is_assignment = 1;
+            assignment_type = lexes[1].type;
+            assignee_isglobal = variable_resolve(&assignee, &assignee_off, lexes[0].name, current_function);
+            assignee_name = lexes[0].name;
+            lexes += 2;
+            break;
+        default:
+            break;
     }
 
     for (size_t i = 0; ; i++) {
@@ -165,9 +173,29 @@ static void statement_compile(FILE *output, lex_t *lexes) {
                 }
                 if (is_assignment) {
                     if (assignee_isglobal) {
-                        fprintf(output, MACHINE_ASSIGN_GLOBAL, assignee_name);
+                        switch (assignment_type) {
+                            case LEX_ASSIGN:
+                                fprintf(output, MACHINE_ASSIGN_GLOBAL, assignee_name);
+                                break;
+                            case LEX_ADD_AND_ASSIGN:
+                                fprintf(output, MACHINE_ADD_AND_ASSIGN_GLOBAL, assignee_name);
+                                break;
+                            case LEX_SUB_AND_ASSIGN:
+                                fprintf(output, MACHINE_SUB_AND_ASSIGN_GLOBAL, assignee_name);
+                                break;
+                        }
                     } else {
-                        fprintf(output, MACHINE_ASSIGN_LOCAL, (int)assignee_off);
+                        switch (assignment_type) {
+                            case LEX_ASSIGN:
+                                fprintf(output, MACHINE_ASSIGN_LOCAL, (int)assignee_off);
+                                break;
+                            case LEX_ADD_AND_ASSIGN:
+                                fprintf(output, MACHINE_ADD_AND_ASSIGN_LOCAL, (int)assignee_off);
+                                break;
+                            case LEX_SUB_AND_ASSIGN:
+                                fprintf(output, MACHINE_SUB_AND_ASSIGN_LOCAL, (int)assignee_off);
+                                break;
+                        }
                     }
                 } else {
                     fprintf(output, MACHINE_POP_RESULT);

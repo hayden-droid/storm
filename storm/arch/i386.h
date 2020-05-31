@@ -187,9 +187,25 @@
     "\tpop eax\n"             \
     "\tmov dword [%s], eax\n"
 
+#define MACHINE_ADD_AND_ASSIGN_GLOBAL \
+    "\tpop eax\n"             \
+    "\tadd dword [%s], eax\n"
+
+#define MACHINE_SUB_AND_ASSIGN_GLOBAL \
+    "\tpop eax\n"             \
+    "\tsub dword [%s], eax\n"
+
 #define MACHINE_ASSIGN_LOCAL \
     "\tpop eax\n"            \
     "\tmov dword [ebp+(%d)], eax\n"
+
+#define MACHINE_ADD_AND_ASSIGN_LOCAL \
+    "\tpop eax\n"            \
+    "\tadd dword [ebp+(%d)], eax\n"
+
+#define MACHINE_SUB_AND_ASSIGN_LOCAL \
+    "\tpop eax\n"            \
+    "\tsub dword [ebp+(%d)], eax\n"
 
 #define MACHINE_POP_RESULT \
     "\tpop eax\n"

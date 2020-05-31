@@ -15,7 +15,7 @@ global puts(int str)
 
     while c = peek8(str + i);
         putchar(c);
-        i = i + 1;
+        i += 1;
     endwhile
 
     return 0;

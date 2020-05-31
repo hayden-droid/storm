@@ -60,16 +60,28 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                 lexes[cur_lex].type = LEX_STATEMENT_END;
                 break;
             case TOKEN_ADD:
-                fprintf(debug, "lex: add\n");
-                lexes[cur_lex].type = LEX_OPERATOR;
-                lexes[cur_lex].operator.type = LEX_ADD;
-                lexes[cur_lex].operator.precedence = 1000;
+                if (tokens[i+1].type == TOKEN_EQUAL) {
+                    i++;
+                    lexes[cur_lex].type = LEX_ADD_AND_ASSIGN;
+                    fprintf(debug, "lex: add and assign\n");
+                } else {
+                    fprintf(debug, "lex: add\n");
+                    lexes[cur_lex].type = LEX_OPERATOR;
+                    lexes[cur_lex].operator.type = LEX_ADD;
+                    lexes[cur_lex].operator.precedence = 1000;
+                }
                 break;
             case TOKEN_SUB:
-                fprintf(debug, "lex: sub\n");
-                lexes[cur_lex].type = LEX_OPERATOR;
-                lexes[cur_lex].operator.type = LEX_SUB;
-                lexes[cur_lex].operator.precedence = 1000;
+                if (tokens[i+1].type == TOKEN_EQUAL) {
+                    i++;
+                    lexes[cur_lex].type = LEX_SUB_AND_ASSIGN;
+                    fprintf(debug, "lex: sub and assign\n");
+                } else {
+                    fprintf(debug, "lex: sub\n");
+                    lexes[cur_lex].type = LEX_OPERATOR;
+                    lexes[cur_lex].operator.type = LEX_SUB;
+                    lexes[cur_lex].operator.precedence = 1000;
+                }
                 break;
             case TOKEN_MUL:
                 fprintf(debug, "lex: mul\n");
