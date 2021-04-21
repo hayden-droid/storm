@@ -194,6 +194,7 @@
       <keyword>break</keyword>
       <keyword>goto</keyword>
       <keyword>if</keyword>
+      <keyword>endif</keyword>
       <keyword>return</keyword>
       <keyword>while</keyword>
       <keyword>endwhile</keyword>
@@ -209,6 +210,7 @@
       <keyword>poke16</keyword>
       <keyword>poke32</keyword>
       <keyword>poke64</keyword>
+      <keyword>cdecl</keyword>
     </context>
 
     <context id="types" style-ref="type">

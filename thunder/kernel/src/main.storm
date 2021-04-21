@@ -1,6 +1,11 @@
 static vga_cursor_position;
 
 global putchar(int c)
+    if c == 0x0a;
+        vga_cursor_position += 160 - vga_cursor_position % 160;
+        return 0;
+    endif
+
     poke8(0xb8000 + vga_cursor_position, c);
 
     vga_cursor_position += 2;
@@ -22,6 +27,16 @@ endfun
 
 global _start()
     puts("hello world\n");
+    puts("goodbye world\n");
+
+    int i = 0;
+    while i < 10;
+        puts("repeat\n");
+        i += 1;
+        if i == 8;
+            break
+        endif
+    endwhile
 
     while 1; endwhile
 endfun
