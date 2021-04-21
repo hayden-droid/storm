@@ -1,26 +1,27 @@
-OUTPUT_FORMAT(binary)
 ENTRY(_start)
 
 SECTIONS
 {
-    . = 1M;
+    . = 0xffffffff80200000;
 
-    .text ALIGN(4K) :
-    {
-        sections_text = .;
-        *(.multiboot)
-        *(.startup)
-        *(.text)
-        sections_text_end = .;
+    .stivale2hdr : {
+        KEEP(*(.stivale2hdr))
     }
 
-    .data ALIGN(4K) :
-    {
-        sections_data = .;
-        *(.data)
-        *(.rodata)
+    .text : {
+        *(.text*)
+    }
+
+    .rodata : {
+        *(.rodata*)
+    }
+
+    .data : {
+        *(.data*)
+    }
+
+    .bss : {
         *(COMMON)
-        *(.bss)
-        sections_data_end = .;
+        *(.bss*)
     }
 }

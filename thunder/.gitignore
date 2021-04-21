@@ -1,0 +1,7 @@
+limine
+pack
+dir2fat32-esp
+*.elf
+*.o
+*.hdd
+*.img

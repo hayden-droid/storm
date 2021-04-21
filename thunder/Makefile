@@ -1,19 +1,34 @@
-.PHONY: kernel_target clean run
+.PHONY: all
+all: thunder.hdd
 
-notarget: thunder.iso
+thunder.hdd: kernel dir2fat32-esp limine
+	mkdir -p pack
+	cp kernel/kernel.elf limine.cfg limine/limine.sys pack/
+	mkdir -p pack/EFI/BOOT
+	cp limine/BOOTX64.EFI pack/EFI/BOOT/
+	./dir2fat32-esp -f thunder.hdd 64 pack
+	limine/limine-install thunder.hdd
 
+.PHONY: kernel
+kernel:
+	$(MAKE) -C kernel
+
+.PHONY: clean
 clean:
 	$(MAKE) clean -C kernel
 
-kernel_target:
-	$(MAKE) -C kernel
+.PHONY: distclean
+distclean: clean
+	rm -rf dir2fat32-esp limine
 
-thunder.iso: kernel_target
-	mkdir -p isodir/boot/grub
-	cp kernel/kernel.bin isodir/boot/kernel.bin
-	cp boot/grub.cfg isodir/boot/grub/grub.cfg
-	grub-mkrescue -o thunder.iso isodir
-	rm -rf isodir
+dir2fat32-esp:
+	wget https://github.com/mintsuki-org/dir2fat32-esp/raw/master/dir2fat32-esp
+	chmod +x dir2fat32-esp
 
+limine:
+	git clone https://github.com/limine-bootloader/limine.git --branch=v2.0-branch-binary --depth=1
+	make -C limine
+
+.PHONY: run
 run:
-	qemu-system-x86_64 -net none -cdrom thunder.iso -boot d
+	qemu-system-x86_64 -net none -hda thunder.hdd

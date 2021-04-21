@@ -1,22 +1,22 @@
-STORM = i386-elf-storm
+STORM = x86_64-elf-storm
 LD    = ld
 
 STORM_FILES := $(shell find . -type f -name '*.storm')
 ASM_FILES   := $(shell find . -type f -name '*.asm')
 OBJ         := $(STORM_FILES:.storm=.storm.o) $(ASM_FILES:.asm=.o)
 
-LDFLAGS = -melf_i386 -nostdlib -T./linker.ld
+LDFLAGS = -nostdlib -Tlinker.ld -pie -static -z max-page-size=0x1000
 
 .PHONY: clean
 
-kernel.bin: $(OBJ)
+kernel.elf: $(OBJ)
 	$(LD) $(OBJ) $(LDFLAGS) -o $@
 
 %.storm.o: %.storm
 	$(STORM) $<
 
 %.o: %.asm
-	nasm $< -f elf32 -o $@
+	nasm $< -f elf64 -o $@
 
 clean:
-	rm -f $(OBJ) kernel.bin
+	rm -f $(OBJ) kernel.elf

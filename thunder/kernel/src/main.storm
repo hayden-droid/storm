@@ -1,10 +1,9 @@
-
 static vga_cursor_position;
 
 global putchar(int c)
     poke8(0xb8000 + vga_cursor_position, c);
 
-    vga_cursor_position = vga_cursor_position + 2;
+    vga_cursor_position += 2;
 
     return 0;
 endfun
@@ -21,8 +20,8 @@ global puts(int str)
     return 0;
 endfun
 
-global main()
-    puts("hello world");
+global _start()
+    puts("hello world\n");
 
     while 1; endwhile
 endfun

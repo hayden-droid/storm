@@ -20,14 +20,12 @@
 #define MACHINE_RETURN \
     "\tmov rsp, rbp\n" \
     "\tpop rbp\n"      \
-    "\tpop rbx\n"      \
     "\tret\n"
 
 #define MACHINE_RETURNZERO \
     "\txor eax, eax\n" \
     "\tmov rsp, rbp\n" \
     "\tpop rbp\n"      \
-    "\tpop rbx\n"      \
     "\tret\n"
 
 #define MACHINE_ADD \
@@ -40,61 +38,61 @@
 
 #define MACHINE_MUL \
     "\tpop rax\n"   \
-    "\tpop rbx\n"   \
-    "\tmul rbx\n"   \
+    "\tpop rcx\n"   \
+    "\tmul rcx\n"   \
     "\tpush rax\n"
 
 #define MACHINE_DIV    \
-    "\tpop rbx\n"      \
+    "\tpop rcx\n"      \
     "\tpop rax\n"      \
     "\txor rdx, rdx\n" \
-    "\tdiv rbx\n"      \
+    "\tdiv rcx\n"      \
     "\tpush rax\n"
 
 #define MACHINE_MODULO    \
-    "\tpop rbx\n"      \
+    "\tpop rcx\n"      \
     "\tpop rax\n"      \
     "\txor rdx, rdx\n" \
-    "\tdiv rbx\n"      \
+    "\tdiv rcx\n"      \
     "\tpush rdx\n"
 
 #define MACHINE_ISEQUAL              \
     "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
-    "\tpop rbx\n"                    \
-    "\tcmp rbx, rax\n"               \
+    "\tpop rcx\n"                    \
+    "\tcmp rcx, rax\n"               \
     "\tsete cl\n"                    \
     "\tpush rcx\n"
 
 #define MACHINE_ISGREATER              \
     "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
-    "\tpop rbx\n"                    \
-    "\tcmp rbx, rax\n"               \
+    "\tpop rcx\n"                    \
+    "\tcmp rcx, rax\n"               \
     "\tsetg cl\n"                    \
     "\tpush rcx\n"
 
 #define MACHINE_ISLESS              \
     "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
-    "\tpop rbx\n"                    \
-    "\tcmp rbx, rax\n"               \
+    "\tpop rcx\n"                    \
+    "\tcmp rcx, rax\n"               \
     "\tsetl cl\n"                    \
     "\tpush rcx\n"
 
 #define MACHINE_ISGREATEROREQUAL              \
     "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
-    "\tpop rbx\n"                    \
-    "\tcmp rbx, rax\n"               \
+    "\tpop rcx\n"                    \
+    "\tcmp rcx, rax\n"               \
     "\tsetge cl\n"                    \
     "\tpush rcx\n"
 
 #define MACHINE_ISLESSOREQUAL              \
     "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
-    "\tpop rbx\n"                    \
-    "\tcmp rbx, rax\n"               \
+    "\tpop rcx\n"                    \
+    "\tcmp rcx, rax\n"               \
     "\tsetle cl\n"                    \
     "\tpush rcx\n"
 
@@ -114,55 +112,56 @@
 
 #define MACHINE_POKE8        \
     "\tpop rax\n"            \
-    "\tpop rbx\n"            \
-    "\tmov byte [rbx], al\n" \
+    "\tpop rcx\n"            \
+    "\tmov byte [rcx], al\n" \
     "\tpush rax\n"
 
 #define MACHINE_POKE16       \
     "\tpop rax\n"            \
-    "\tpop rbx\n"            \
-    "\tmov word [rbx], ax\n" \
+    "\tpop rcx\n"            \
+    "\tmov word [rcx], ax\n" \
     "\tpush rax\n"
 
 #define MACHINE_POKE32         \
     "\tpop rax\n"              \
-    "\tpop rbx\n"              \
-    "\tmov dword [rbx], eax\n" \
+    "\tpop rcx\n"              \
+    "\tmov dword [rcx], eax\n" \
     "\tpush rax\n"
 
 #define MACHINE_POKE64         \
     "\tpop rax\n"              \
-    "\tpop rbx\n"              \
-    "\tmov qword [rbx], rax\n" \
+    "\tpop rcx\n"              \
+    "\tmov qword [rcx], rax\n" \
     "\tpush rax\n"
 
 #define MACHINE_PEEK8        \
-    "\tpop rbx\n"            \
+    "\tpop rcx\n"            \
     "\txor rax, rax\n"       \
-    "\tmov al, byte [rbx]\n" \
+    "\tmov al, byte [rcx]\n" \
     "\tpush rax\n"
 
 #define MACHINE_PEEK16       \
-    "\tpop rbx\n"            \
+    "\tpop rcx\n"            \
     "\txor rax, rax\n"       \
-    "\tmov ax, word [rbx]\n" \
+    "\tmov ax, word [rcx]\n" \
     "\tpush rax\n"
 
 #define MACHINE_PEEK32         \
-    "\tpop rbx\n"              \
+    "\tpop rcx\n"              \
     "\txor rax, rax\n"         \
-    "\tmov eax, dword [rbx]\n" \
+    "\tmov eax, dword [rcx]\n" \
     "\tpush rax\n"
 
 #define MACHINE_PEEK64 \
-    "\tpop rbx\n"      \
-    "\tpush qword [rbx]\n"
+    "\tpop rcx\n"      \
+    "\tpush qword [rcx]\n"
 
 #define MACHINE_CDECL                                                                        \
     "cdecl:\n"                                                                               \
-    "\tmov rbx, qword [rsp + 8]\n" /* arg count in rbx */                                    \
-    "\tmov rax, qword [rsp + rbx*8 + 16]\n" /* rax contains the function's address */        \
-    "\tlea rbx, [rsp + rbx*8 + 8]\n"   /* rbx points to top of args */                       \
+    "\tpush rbx\n"                                                                           \
+    "\tmov rbx, qword [rsp + 16]\n" /* arg count in rbx */                                    \
+    "\tmov rax, qword [rsp + rbx*8 + 24]\n" /* rax contains the function's address */        \
+    "\tlea rbx, [rsp + rbx*8 + 16]\n"   /* rbx points to top of args */                       \
     "\tmov rdi, qword [rbx]\n"                                                               \
     "\tsub rbx, 8\n"                                                                         \
     "\tmov rsi, qword [rbx]\n"                                                               \
@@ -182,6 +181,7 @@
     "\tsub rsp, 8\n"                                                                         \
     "\tcall rax\n"                                                                           \
     "\tadd rsp, 8\n"                                                                         \
+    "\tpop rbx\n"                                                                            \
     "\tret\n"
 
 #define MACHINE_FUNCTION_CALL \
@@ -190,7 +190,6 @@
     "\tpush rax\n"
 
 #define MACHINE_CREATE_FRAME \
-    "\tpush rbx\n"           \
     "\tpush rbp\n"           \
     "\tmov rbp, rsp\n"
 
@@ -204,13 +203,14 @@
     "\tpush %ld\n"
 
 #define MACHINE_PUSH_GLOBAL \
-    "\tpush qword [%s]\n"
+    "\tpush qword [rel %s]\n"
 
 #define MACHINE_PUSH_LOCAL \
     "\tpush qword [rbp+(%d)]\n"
 
 #define MACHINE_PUSH_ADDROF_GLOBAL \
-    "\tpush %s\n"
+    "\tlea rax, [rel %s]\n"        \
+    "\tpush rax\n"
 
 #define MACHINE_PUSH_ADDROF_LOCAL \
     "\tlea rax, [rbp+(%d)]\n"     \
@@ -218,11 +218,27 @@
 
 #define MACHINE_ASSIGN_GLOBAL \
     "\tpop rax\n"             \
-    "\tmov qword [%s], rax\n"
+    "\tmov qword [rel %s], rax\n"
+
+#define MACHINE_ADD_AND_ASSIGN_GLOBAL \
+    "\tpop rax\n"             \
+    "\tadd qword [rel %s], rax\n"
+
+#define MACHINE_SUB_AND_ASSIGN_GLOBAL \
+    "\tpop rax\n"             \
+    "\tsub qword [rel %s], rax\n"
 
 #define MACHINE_ASSIGN_LOCAL \
     "\tpop rax\n"            \
     "\tmov qword [rbp+(%d)], rax\n"
+
+#define MACHINE_ADD_AND_ASSIGN_LOCAL \
+    "\tpop rax\n"            \
+    "\tadd qword [rbp+(%d)], rax\n"
+
+#define MACHINE_SUB_AND_ASSIGN_LOCAL \
+    "\tpop rax\n"            \
+    "\tsub qword [rbp+(%d)], rax\n"
 
 #define MACHINE_POP_RESULT \
     "\tpop rax\n"

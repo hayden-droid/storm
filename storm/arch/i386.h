@@ -1,4 +1,5 @@
 /* Target i386 */
+
 #define MACHINE_STACK_ELEMENT_SIZE 4
 
 #define MACHINE_SECTION_TEXT \
