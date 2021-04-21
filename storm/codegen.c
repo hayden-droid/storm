@@ -332,6 +332,14 @@ void codegen(FILE *output, lex_t *lexes) {
                 keywords[keywords_ptr++].label = labels;
                 fprintf(output, MACHINE_IF, labels++);
                 break;
+            case LEX_ELSE: {
+                int label = keywords[--keywords_ptr].label;
+                keywords[keywords_ptr].type = KEYWORD_IF;
+                keywords[keywords_ptr].label = labels;
+                fprintf(output, MACHINE_ENDWHILE, keywords[keywords_ptr++].label);
+                fprintf(output, MACHINE_INTLABEL, label);
+                break;
+            }
             case LEX_ENDIF:
                 fprintf(output, MACHINE_INTLABEL, keywords[--keywords_ptr].label);
                 break;

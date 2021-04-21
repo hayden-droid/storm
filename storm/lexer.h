@@ -75,6 +75,7 @@ enum lex_type_t {
     LEX_WHILE,
     LEX_ENDIF,
     LEX_IF,
+    LEX_ELSE,
     LEX_RETURN,
     LEX_OPERATOR,
 

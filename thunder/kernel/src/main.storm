@@ -3,14 +3,12 @@ static vga_cursor_position;
 global putchar(int c)
     if c == 0x0a;
         vga_cursor_position += 160 - vga_cursor_position % 160;
-        return 0;
+    else
+        poke8(0xb8000 + vga_cursor_position, c);
+
+        vga_cursor_position += 2;
     endif
 
-    poke8(0xb8000 + vga_cursor_position, c);
-
-    vga_cursor_position += 2;
-
-    return 0;
 endfun
 
 global puts(int str)

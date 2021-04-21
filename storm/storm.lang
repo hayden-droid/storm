@@ -194,6 +194,7 @@
       <keyword>break</keyword>
       <keyword>goto</keyword>
       <keyword>if</keyword>
+      <keyword>else</keyword>
       <keyword>endif</keyword>
       <keyword>return</keyword>
       <keyword>while</keyword>

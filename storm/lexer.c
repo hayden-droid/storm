@@ -260,6 +260,12 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                     goto continue2;
                 }
 
+                if (!strcmp(tokens[i].token, "else")) {
+                    fprintf(debug, "lex: else\n");
+                    lexes[cur_lex].type = LEX_ELSE;
+                    goto continue2;
+                }
+
                 if (!strcmp(tokens[i].token, "endif")) {
                     fprintf(debug, "lex: endif\n");
                     lexes[cur_lex].type = LEX_ENDIF;
