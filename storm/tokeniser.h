@@ -24,7 +24,8 @@ enum token_type_t {
     TOKEN_COMMA,
     TOKEN_ADDRESSOF,
     TOKEN_TILDE,
-    TOKEN_PERCENT
+    TOKEN_PERCENT,
+    TOKEN_EXCLAMATION
 };
 
 typedef struct {

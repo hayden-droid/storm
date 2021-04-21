@@ -49,6 +49,7 @@ enter:
             TOKEN('^', TOKEN_ADDRESSOF);
             TOKEN('~', TOKEN_TILDE);
             TOKEN('%', TOKEN_PERCENT);
+            TOKEN('!', TOKEN_EXCLAMATION);
 
             #undef TOKEN
 

@@ -59,40 +59,48 @@
 #define MACHINE_ISEQUAL              \
     "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
-    "\tpop rcx\n"                    \
-    "\tcmp rcx, rax\n"               \
+    "\tpop rdx\n"                    \
+    "\tcmp rdx, rax\n"               \
     "\tsete cl\n"                    \
+    "\tpush rcx\n"
+
+#define MACHINE_ISNOTEQUAL              \
+    "\txor ecx, ecx\n"               \
+    "\tpop rax\n"                    \
+    "\tpop rdx\n"                    \
+    "\tcmp rdx, rax\n"               \
+    "\tsetne cl\n"                    \
     "\tpush rcx\n"
 
 #define MACHINE_ISGREATER              \
     "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
-    "\tpop rcx\n"                    \
-    "\tcmp rcx, rax\n"               \
+    "\tpop rdx\n"                    \
+    "\tcmp rdx, rax\n"               \
     "\tsetg cl\n"                    \
     "\tpush rcx\n"
 
 #define MACHINE_ISLESS              \
     "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
-    "\tpop rcx\n"                    \
-    "\tcmp rcx, rax\n"               \
+    "\tpop rdx\n"                    \
+    "\tcmp rdx, rax\n"               \
     "\tsetl cl\n"                    \
     "\tpush rcx\n"
 
 #define MACHINE_ISGREATEROREQUAL              \
     "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
-    "\tpop rcx\n"                    \
-    "\tcmp rcx, rax\n"               \
+    "\tpop rdx\n"                    \
+    "\tcmp rdx, rax\n"               \
     "\tsetge cl\n"                    \
     "\tpush rcx\n"
 
 #define MACHINE_ISLESSOREQUAL              \
     "\txor ecx, ecx\n"               \
     "\tpop rax\n"                    \
-    "\tpop rcx\n"                    \
-    "\tcmp rcx, rax\n"               \
+    "\tpop rdx\n"                    \
+    "\tcmp rdx, rax\n"               \
     "\tsetle cl\n"                    \
     "\tpush rcx\n"
 
@@ -251,3 +259,6 @@
 
 #define MACHINE_LITERAL_HEX \
     "\", 0x%x, \""
+
+#define MACHINE_MAGICBREAK \
+    "\txchg bx, bx\n"

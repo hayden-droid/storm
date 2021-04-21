@@ -117,6 +117,15 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                     lexes[cur_lex].type = LEX_ASSIGN;
                 }
                 break;
+            case TOKEN_EXCLAMATION:
+                if (tokens[i+1].type == TOKEN_EQUAL) {
+                    i++;
+                    lexes[cur_lex].type = LEX_OPERATOR;
+                    lexes[cur_lex].operator.type = LEX_ISNOTEQUAL;
+                    lexes[cur_lex].operator.precedence = 400;
+                    fprintf(debug, "lex: isnotequal\n");
+                }
+                break;
             case TOKEN_GREATERTHAN:
                 if (tokens[i+1].type == TOKEN_EQUAL) {
                     i++;
@@ -287,6 +296,12 @@ void lex(lex_t *lexes, token_t *tokens, FILE *debug) {
                 if (!strcmp(tokens[i].token, "endwhile")) {
                     fprintf(debug, "lex: endwhile\n");
                     lexes[cur_lex].type = LEX_ENDWHILE;
+                    goto continue2;
+                }
+
+                if (!strcmp(tokens[i].token, "magic_break")) {
+                    fprintf(debug, "lex: magic_break\n");
+                    lexes[cur_lex].type = LEX_MAGICBREAK;
                     goto continue2;
                 }
 

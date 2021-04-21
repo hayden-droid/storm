@@ -200,6 +200,7 @@
       <keyword>while</keyword>
       <keyword>endwhile</keyword>
       <keyword>endfun</keyword>
+      <keyword>magic_break</keyword>
     </context>
 
     <context id="operators" style-ref="operator">

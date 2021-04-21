@@ -3,4 +3,6 @@
 /**/*.s
 /**/*.iso
 /**/*.bin
+bx_enh_dbg.ini
+bochsout.txt
 /storm/Makefile

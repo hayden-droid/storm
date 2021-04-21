@@ -106,6 +106,9 @@ static void put_operator(FILE *output, operator_t op) {
         case LEX_ISEQUAL:
             fprintf(output, MACHINE_ISEQUAL);
             break;
+        case LEX_ISNOTEQUAL:
+            fprintf(output, MACHINE_ISNOTEQUAL);
+            break;
         case LEX_ISGREATER:
             fprintf(output, MACHINE_ISGREATER);
             break;
@@ -367,6 +370,9 @@ void codegen(FILE *output, lex_t *lexes) {
                 break;
             case LEX_RETURN:
                 ret = 1;
+                break;
+            case LEX_MAGICBREAK:
+                fprintf(output, MACHINE_MAGICBREAK);
                 break;
         }
     }

@@ -79,11 +79,14 @@ enum lex_type_t {
     LEX_RETURN,
     LEX_OPERATOR,
 
+    LEX_MAGICBREAK,
+
     LEX_ASSIGN,
     LEX_ADD_AND_ASSIGN,
     LEX_SUB_AND_ASSIGN,
 
     LEX_ISEQUAL,
+    LEX_ISNOTEQUAL,
     LEX_ADD,
     LEX_SUB,
     LEX_MUL,
